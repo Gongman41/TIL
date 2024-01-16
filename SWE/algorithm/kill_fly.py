@@ -15,7 +15,7 @@ for test_case in range(1, T + 1):
                     total_kill += number_list[i+k][j]
                 if 0 <= j + k < N:
                     total_kill += number_list[i][j+k]
-                total_kill -= number_list[i][j]
+            total_kill -= number_list[i][j]
             real_total_kill = max(real_total_kill,total_kill)
             total_kill= 0
             for k in range(1-M,M):
@@ -23,11 +23,9 @@ for test_case in range(1, T + 1):
                     total_kill += number_list[i+k][j+k]
                 if 0 <= i - k < N and 0 <= j+k < N:
                     total_kill += number_list[i-k][j+k]
-                total_kill -= number_list[i][j]
+            total_kill -= number_list[i][j]
             real_total_kill = max(real_total_kill,total_kill)
-            total_kill= 0
-
-                
-    print(f'#{test_case}')
-    print(real_total_kill)
+            total_kill = 0
+                 
+    print(f'#{test_case} {real_total_kill}')
             

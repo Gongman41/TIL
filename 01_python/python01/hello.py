@@ -1,25 +1,35 @@
-catalog = [
-    ['시간의 틈', '반짝임의 어둠', '망각의 경계'],
-    ['연기의 수수께끼', '장면의 고백', '드라마의 그림자'],
-    ['황금의 칼날', '비열한 간신', '무명의 영웅'],
-    ['성공의 열쇠', '내면의 변화', '목표의 달성']
-]
+T = int(input())
+# 여러개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
+for test_case in range(1, T + 1):
+    N, M = map(int, input().split())
+    number_list = []
+    real_total_kill = 0
 
-backup_catalog = catalog[:]
-print(backup_catalog)
-catalog[3][0:3] = ['성공을 향한 한 걸음', '내 삶의 변화', '목표 달성의 비밀']
-''' 
-도서 제목 '성공의 열쇠', '내면의 변화', '목표의 달성' 을 각각
-'성공을 향한 한 걸음', '내 삶의 변화', '목표 달성의 비밀' 가 되도록 변경하시오.
-'''
+    for n in range(N):
+        number_list.append(list(map(int, input().split())))
 
-print('catalog와 backup_catalog를 비교한 결과')
-# 식별 연산자로 catalog와 backup_catalog를 비교한 결과를 출력하시오.
-print()
+    for i in range(N):
+        for j in range(N):
+            total_kill = 0
 
-print('backup_catalog : ')
-print(backup_catalog)
-print()
+            # 가로 및 세로 합
+            for k in range(-M + 1, M):
+                if 0 <= i + k < N:
+                    total_kill += number_list[i + k][j]
+                if 0 <= j + k < N:
+                    total_kill += number_list[i][j + k]
 
-print('catalog : ')
-print(catalog)
+            # 대각선 합
+            for k in range(-M + 1, M):
+                if 0 <= i + k < N and 0 <= j + k < N:
+                    total_kill += number_list[i + k][j + k]
+                if 0 <= i - k < N and 0 <= j + k < N:
+                    total_kill += number_list[i - k][j + k]
+
+            # 현재 셀의 값을 두 번 더했으므로 중복 계산된 값을 빼줍니다.
+            total_kill -= 2 * number_list[i][j]
+
+            real_total_kill = max(real_total_kill, total_kill)
+
+    print(f'#{test_case}')
+    print(real_total_kill)
