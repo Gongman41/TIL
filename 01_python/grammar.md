@@ -285,3 +285,455 @@ sorted(function), sort(메서드) 리턴이 있냐 없냐
  점화식 특정 조건이 소진되어 자연스럽게 종료됨
 
  딕셔너리 언패킹 리스트. 순서 만들어서 확인하기 편하게
+
+
+
+
+ .format()
+ sorted가 함수 sort는 메서드. 문자열도 정렬
+
+ def sorted(iterable, key=None, reverse=False):
+    pass
+sorted(list, reverse=True)  #None 
+print('' == False)
+print('' == True)
+if '':
+    print('빈문자열은... 빈문자열...?')
+else:
+    print('아무일도 벌어지지 않음')
+
+빈 리스트 == False
+my_list = ['가', '나', '다']
+
+
+print(sum(my_list))  는 에러
+my_list = [[1, 2, 3], [4, 5]]
+print(sum(my_list, [])) #[1, 2, 3, 4, 5]
+
+for else
+while else
+빈 리스트 호출 조심
+
+numbers = []
+numbers += [1]
+#[1]
+```py
+numbers_words = [
+    '1 2 3 4 5',
+    '6 7 8 9 10',
+    '11 12 13 14 15'
+]
+# 최종결과물
+numbers = []
+for words in numbers_words:
+    conversion_list = list(map(int, words.split()))
+    numbers.append(conversion_list)
+print(numbers)
+
+numbers = [1, 2, 3, 4]
+numbers = [list(map(int, words.split())) for words in numbers_words]
+numbers = [[0] * 10 for _ in range(10)]
+numbers = [[0 for _ in range(10)] for _ in range(10)]
+print(numbers)
+```
+
+함수를 정의할 때, 매개변수에 패킹을 사용해서
+가변 인자로 받게 되면 튜플로 받는데...
+
+왜, 변수에 패킹을 사용해서
+다수의 데이터를 받으면 리스트로 받는 이유는 뭔가요?
+print([1, 2, 3, 4, 5])
+print(*[1, 2, 3, 4, 5])
+
+lambda n(매개변수,매개변수): 함수할일
+
+```py
+def my_sum(num1, num2):
+    return num1 + num2
+result = my_sum(1, 2)
+
+my_sum_lambda = lambda num1, num2: num1 + num2
+result_2 = my_sum_lambda(3, 4)
+print(result, result_2)
+
+a = [1, 2, 3]
+b = [4, 5, 6]
+result_3 = map(lambda num1, num2: num1 + num2, a, b)
+print(list(result_3))
+
+result_4 = map(my_sum, a, b)
+print(list(result_4))
+```
+
+# 파이썬 함수의 특징
+    # 파이썬 함수는 반드시 반환하는 값이 하나의 객체이다.
+    # 그런데, 만약 2개 이상의 객체를 반환하도록 하려고하면,
+    # 파이썬이 알아서 tuple로 묶어서 반환한다.
+
+def reverse_string(word):
+    # reversed 함수는?
+    # return list(reversed(word))
+    return ''.join(reversed(word))
+
+빈 문자열에 붙이는 식도 ㄱㅊ
+```py
+def even_elements(arr):
+    result = []
+    tmp = []
+    # 전체 리스트의 요소를 순회
+    # 리스트에 값이 있는 동안 순회
+    while arr:
+        # 0번째 요소를 pop -> pop에 인자를 안넣으면 뒤에서부터 제거
+        # -> 리스트의 순서가 바뀔 수 있음.
+        element = arr.pop(0)
+        # 각 요소들을 하나씩 뽑아, 짝수인 경우에만
+        if element % 2 == 0:
+            # 임시변수 tmp에 추가
+            tmp.append(element)
+    # extend는 순회 가능한 요소를 모두 순회하며 리스트에 추가하는 메서드
+    result.extend(tmp)
+    return result
+
+
+my_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+result = even_elements(my_list)
+print(result)
+```
+
+문자열은 반환값이 대체로 있다
+
+counut_dict = {i: 0 for i in range(1, 10)}
+
+```py
+# 아래 함수를 수정하시오.
+def remove_duplicates_to_set(arr):
+    return set(arr)
+# 가정 : arr에 1~9 까지의 정수만 요소로 삽입된다면,
+def remove_duplicates_to_set(arr):
+    # 기본 dict # 첫 초기화는 0번 나왔다고 초기화
+    # counut_dict = {1: 0, 2: 0, 3: 0, 4: 0}
+    # dict_comprehension
+    counut_dict = {i: 0 for i in range(1, 10)}
+    # return counut_dict
+    # 중복이 없다.
+    # 배열의 모둔 요소를 순회한다.
+    # 이떄, 순회 대상이, 이전에 한번도 나온적이 없다.
+        # 요소를 중심으로 해당요소가 몇번 나왔는지 셀 수 있어야함.
+        # 1이 1번 나왔으면 1=1
+        # 2가 3번 나왔으면 2=3
+        # dict = {1: 1, 2: 3}
+    for num in arr:
+        counut_dict[num] += 1
+    # 모든 출현횟수 기록해둔 dict를 순회해서
+        # value가 1인 (1번 이상 나온 값) key 모아서 새 list
+    result = [key for key, item in counut_dict.items() if item >= 1]
+    return set(result)
+
+# 가정 : arr에 1~9 까지의 정수만 요소로 삽입된다면,
+def remove_duplicates_to_set(arr):
+    count_list = [0 for i in range(10)]
+    for index in arr:
+        count_list[index] += 1
+    result = [num for num in range(len(count_list)) if count_list[num] >= 1] 
+    return result
+
+# 딕셔너리에 집중
+def remove_duplicates_to_set(arr):
+    # 최종 결과물
+    result = set()
+    duplicate_check_dict = {}
+    for num in arr:
+        # 해당하는 키가 dict에 없다면
+        # if dict.get(key) == None:
+        #     dict[key] = 0
+        # else:
+        #     dict[key] += 1
+        # if dict[key]: (키가 없는경우 KeyError)
+        duplicate_check_dict[num] = duplicate_check_dict.get(num, 0) + 1
+        # 중복없음 == 1번만 나왔으면 아무튼 나온거임
+        if duplicate_check_dict[num] == 1:
+            result.add(num)
+    return result
+
+result = remove_duplicates_to_set([1, 2, 2, 3, 4, 4, 5])
+print(result)
+``` 약간 카운팅정렬 느낌이네
+
+```py
+data = {
+    '이름': '키위',
+    '종류': '새',
+    '원산지': '호주' 
+}
+
+plus_data = {
+    '종류': '과일',
+    '가격': 30000
+}
+# 1. data가 가진 모든 키와 벨류 목록을 출력한다.
+# 가장 기본적인 dict 순회
+for key in data:
+    print(key, data[key])
+
+# items() => [(key, value), (key, value)]
+for item in data.items():
+    print(item) # (key, value)
+    key, value = item
+    print(key, value)
+
+# items() => [(key, value), (key, value)]
+for key, value in data.items():
+    print(key, value) # (key, value)
+
+print(data.keys())
+# for key in data:
+# for key in data.keys():
+#     print(key)
+
+
+
+# 2. data가 가진 벨류 목록들만 모아서 출력한다.
+print(data.values())
+
+# 3. data에서 'without' 키가 가진 value를 출력한다.
+    # 해당하는 키가 data에 없다면, 'unknown' 문자열을 출력한다.
+# data가 가진 모든 값 순회
+# for key in data:
+#     # 순회도중 key의 값이 without이라면
+#     if key == 'without':
+#         # 근데 그 키가 있다면,
+#         if data.get(key):
+#             # value 출력
+#             print(data[key])
+#         # 없다면
+#         else:
+#             # 특정 문자열 출력
+#             print('unknown')
+print(data.get('without', 'unknown'))
+    
+# 4. plus_data가 가진 모든 키와 벨류를 data에 추가한다.
+data.update(plus_data)
+print(data.update(plus_data))
+# for key in plus_data:
+#     data[key] = plus_data[key]
+
+# 5. 변경된 data를 출력한다.
+print(data)
+```
+```py
+print("""
+      usage: thingy [OPTIONS]
+      -h
+      -H hostname
+      """)
+
+print('Py' 'thon')
+#'Python' 변수나 표현식에는 적용불가,+로 해야됨.  오직 두개의 리터럴만. 
+```
+문자열에 너무 큰 인덱스 호출은 에러, but 슬라이싱에서는 부드럽게 처리
+슬라이싱은 얕은 복사본을 리턴
+리스트에서 슬라이싱으로 내용변경, 내용삭제_길이변경, 초기화 등 가능
+
+for  _ in range(len(n_list)) 같은 반복문에서 n_list를 수정하면 길이 변경
+복사본을 만들거나 새 컬렉션 만들어라
+
+for - else 문에서 else는 break가 발생하지 않을 때 실행됨
+for n in range(2,2):
+    print(n)         출력 x
+        
+
+def http_error(status):
+    match status:
+        case 400:
+            return "Bad request"
+        case 404:
+            return "Not found"
+        case 418:
+            return "I'm a teapot"
+        case _: #예외처리
+            return "Something's wrong with the internet"
+
+print(http_error(400)) # switch 느낌
+
+case 401 | 403 | 404:
+    return "Not allowed"
+  
+# point is an (x, y) tuple
+match point:
+    case (0, 0):
+        print("Origin")
+    case (0, y):
+        print(f"Y={y}")
+    case (x, 0):
+        print(f"X={x}")
+    case (x, y):
+        print(f"X={x}, Y={y}")
+    case _:
+        raise ValueError("Not a point")
+
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+def where_is(point):
+    match point:
+        case Point(x=0, y=0):
+            print("Origin")
+        case Point(x=0, y=y):
+            print(f"Y={y}")
+        case Point(x=x, y=0):
+            print(f"X={x}")
+        case Point():
+            print("Somewhere else")
+        case _:
+            print("Not a point")
+
+함수는 return이 없으면 None을 출력
+
+def f(a, L=[]):
+    L.append(a)
+    return L
+
+print(f(1))
+print(f(2))
+print(f(3))
+^
+|
+v
+i = 5
+
+def f(arg=i):
+    print(arg)
+
+i = 6
+f()
+
+해법
+def f(a, L=None):
+    if L is None:
+        L = []
+    L.append(a)
+    return L
+
+
+def cheeseshop(kind, *arguments, **keywords):
+    print("-- Do you have any", kind, "?")
+    print("-- I'm sorry, we're all out of", kind)
+    for arg in arguments:
+        print(arg)
+    print("-" * 40)
+    for kw in keywords:
+        print(kw, ":", keywords[kw]) 매개변수에서는 패킹
+
+cheeseshop("Limburger", "It's very runny, sir.",
+           "It's really very, VERY runny, sir.",
+           shopkeeper="Michael Palin",
+           client="John Cleese",
+           sketch="Cheese Shop Sketch")
+
+딕셔너리 언패킹 시 a:b -> a=b
+
+def make_incrementor(n):
+    return lambda x: x + n
+
+f = make_incrementor(42)
+f(0)
+42
+f(1)
+43
+
+pairs = [(1, 'one'), (2, 'two'), (3, 'three'), (4, 'four')]
+pairs.sort(key=lambda pair: pair[1])
+pairs
+[(4, 'four'), (1, 'one'), (3, 'three'), (2, 'two')]
+sort()의 key매개변수를 이용해 두번째 요소를 기준으로 졍렬
+```py
+a = [1,2,3]
+a[len(a):] = [4] # append()
+a[len(a):] = [4,5,6] # extend()
+a[len(a):] = {5,7,8}
+a[len(a):] = {10:1,20:5}
+
+
+print(a)
+``` 리스트에 세트를 append하면 랜덤하게 값이 리스트로 들어감. 딕셔너리는 key값만
+
+remove()는 첫번쨰 만나면 삭제, 없으면 ValueError
+index(x)는 첫번째 만나는 x 인덱스 반환. 없으면 ValueError
+copy()는 얕은 복사, a[:] 와 동등
+list.sort(*, key=None, reverse=False)
+
+형이 다르면 정렬되지 않는다. 에러뜸
+
+[(x, y) for x in [1,2,3] for y in [3,1,4] if x != y]
+[(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+squares = list(map(lambda x: x**2, range(10)))
+
+리스트 컴프리헨션 시 반환값이 2개 이상이면 튜플로 묶어줘야됨
+
+리스트 컴프리헨션으로 전치하기
+[[row[i] for row in matrix] for i in range(4)]
+[[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
+list(zip(*matrix))
+[(1, 5, 9), (2, 6, 10), (3, 7, 11), (4, 8, 12)]
+
+del문. 인덱스를 없애버림. 리스트 초기화도 가능. 리스트를 참조했다는 것도 삭제가능
+
+singleton = 'hello', #튜플로 만들기
+
+x,y,z = t
+
+a = {x for x in 'abracadabra' if x not in 'abc'}
+a
+{'r', 'd'}
+
+list(딕셔너리)sms key값들 리스트로 반환
+
+a = dict([{'sape', 4139}, ('guido', 4127), ('jack', 4098)])
+print(a) 
+#2개의 요소로 되어있으면 출력. 세트면 랜덤. 리스트나 튜플은 그대로. 딕셔너리일 경우 key를 가져오기 때문에 2쌍의 key로 key:value 설정. sape=4139같은 형식도 가능
+
+zip()
+
+import fibo as fib
+#닉네임 설정
+format() 메서드
+print('{0} and {1}'.format('spam', 'eggs'))
+spam and eggs
+print('{1} and {0}'.format('spam', 'eggs'))
+eggs and spam
+
+def scope_test():
+    def do_local():
+        spam = "local spam"
+
+    def do_nonlocal():
+        nonlocal spam
+        spam = "nonlocal spam"
+
+    def do_global():
+        global spam
+        spam = "global spam"
+
+    spam = "test spam"
+    do_local()
+    print("After local assignment:", spam)
+    do_nonlocal()
+    print("After nonlocal assignment:", spam)
+    do_global()
+    print("After global assignment:", spam)
+
+scope_test()
+print("In global scope:", spam)
+
+After local assignment: test spam
+After nonlocal assignment: nonlocal spam
+After global assignment: nonlocal spam
+In global scope: global spam
+ㄷ
+nonlocal은 한단계 위에?
+
+x.f()는 정확히 MyClass.f(x) 와 동등합
+
+클래스변수에 리스트가 오면 인스턴스에서 클래스변수를 호출하고 수정가능해짐. 인스턴스 변수로 설정해야함. 유의
