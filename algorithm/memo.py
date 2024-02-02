@@ -1,23 +1,41 @@
-N, K = map(int, input().split())
-share_ncard = list(map(int, input().split()))
-team_ncard = list(map(int, input().split()))
+import sys
+sys.stdin = open("sample_input.txt")
+N = int(input())
+n_list = list(map(int,input().split()))
+n_list.sort()
+M = int(input())
+m_list = list(map(int,input().split()))
+count_list =[]
 
-max_n_list = []
-for s in range(len(share_ncard)):
-    for t in range(len(team_ncard)):
-        max_n_list.append([share_ncard[s] * team_ncard[t], t])
-max_n_list = sorted(max_n_list, key=lambda x: x[0])
-for k in range(K):
-    a = max_n_list.pop()
-    team_ncard.pop(a[1])
-    i = 0
-    while i != len(max_n_list):
-        if max_n_list[i][1] == a[1]:
-            max_n_list.pop(i)
-        else:
-            i += 1
+def ejinsearching(list,a):
+    middle = len(list)//2
+    if list[middle] == a:
+        list.pop(middle)
+        return True
+    elif list[middle] > a:
+        return ejinsearching(list[len(list)//2+1:],a)
+    elif list[middle] < a:
+        return ejinsearching(list[:len(list)//2], a)
+for m in range(M):
+    count = 0
+    while ejinsearching(n_list,m_list[m]):
+        count+=1
+    count_list.append(count)
+print(*count_list)
 
-print(max(team_ncard) * max(share_ncard))
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
