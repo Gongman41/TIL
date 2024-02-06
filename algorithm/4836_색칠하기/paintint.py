@@ -19,7 +19,7 @@ for tc in range(1,T+1):
         for _c in range(c1,c2+1):
             for Ic in range(r1,r2+1):
                 if matrix[_c][Ic] == 0: #색칠 안했으면 색칠
-                    matrix[_c][Ic] = color
+                    matrix[_c][Ic] = color #냅다 더해도 됐을듯.
                 elif matrix[_c][Ic] != color: #색칠이 이미 됐는데 같은 색 아님.
                     p_count +=1 # 카운트만 하기. 같은 색이면 지나감.
     print(f'#{tc} {p_count}')

@@ -16,7 +16,7 @@ T = int(input())
 def f(arr,N, K):
     arr_n = len(arr)
     set_count = 0
-    for i in range(1<<arr_n): # 모든 부분집합 생성. 1<<N 은 2^N을 의미. 등비수열의 합 ㅇㅇ
+    for i in range(1<<arr_n): # 모든 부분집합 생성. 10진수가 아닌 2진수로 생각.1<<N 은 2^N을 의미. 등비수열의 합 ㅇㅇ
         s = 0
         count = 0
         for j in range(arr_n):# 모든 부분집합 각각의의 모든 원소 계산
@@ -33,4 +33,24 @@ for tc in range(1,T+1):
     N,K = map(int,input().split())
     print(f"#{tc} {f(arr,N,K)}")
 
+'''
+import sys
+sys.stdin = open('input.txt')
 
+T = int(input())
+
+for tc in range(1, T+1):
+    N, K = map(int, input().split())
+    arr = list(range(1, 13))
+
+    for i in range(1 << 12):
+        result = []
+        for j in range(12):
+            if i & (1 << j):
+                result.append(arr[j])
+        if len(result) == N and sum(result) == K:
+            print(f'#{tc} 1')
+            break
+    else:
+        print(f'#{tc} 0')
+'''

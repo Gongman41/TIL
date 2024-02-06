@@ -21,7 +21,35 @@
       for j: 0 -> i-1
         if a[j] >a[j+1]
             a[j] <-> a[j+1]
-      
+
+```py
+def bubble_sort(numbers):
+    # n-1 번째 까지 조사를 해나갈 것.
+    # range(start, end, step)
+    # -> start : 작성된 정수 부터 시작
+    # -> end : 작성된 정수 - step 까지
+    # -> step : 다음 정수의 값
+    for i in range(len(numbers) - 1, 0, -1):#처음이 반대
+        # 이번 회차에 조사 해야 할 범위
+        for j in range(i):
+            # print(numbers[j], numbers[j+1])
+            # j가 다음 위치 보다 값이 크면 (오름차순 기준)
+            if numbers[j] > numbers[j + 1]:
+                # 둘의 값을 바꿔치기 한다.
+                # tmp = numbers[j]
+                # numbers[j] = numbers[j+1]
+                # numbers[j+1] = tmp
+                numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
+                print(numbers, numbers[j], numbers[j + 1])
+    return numbers
+
+numbers = [55, 7, 78, 12, 42]
+
+print(bubble_sort(numbers))
+```
+
+버블 정렬이나 앞에애들이랑 뒤에 한놈이랑 비교하는 거나 별 차이 없는 거 같은데..?
+
 #카운팅 정렬
 - 정수나 정수로 표현할 수있는 자료에 대해서만 적용가능.
 - 정수 항목으로 인덱스되는 카운트들의 배열을 사용하기 때문
@@ -40,10 +68,48 @@
     for i in range(1,K+1):
         counts[i] = counts[i-1]+ counts[i]
     for i in range(N-1,-1,-1):
-        counts[data[i]] -= 1
+        counts[data[i]] -= 1#인덱스로 쓸려면 하나씩 마이너스
     temp[counts[data[i]]] =  data[i]
     print(*temp)
     ```
+```py
+def counting_sort(input_arr, k):
+    """
+    input_arr : 입력 배열(1 to k)
+    counting_arr : 카운트 배열
+    k는 데이터의 개수가 아닌 데이터 원소의 범위
+    """
+
+    counting_arr = [0] * (k + 1)
+
+    # 1. counting array에 arr내 원소의 빈도수 담기
+    for i in range(0, len(input_arr)):
+        counting_arr[input_arr[i]] += 1
+    # for i in input_arr:
+    #     counting_arr[i] += 1
+
+    # 2. 누적(counting_arr 업데이트)
+    for i in range(1, len(counting_arr)):
+        counting_arr[i] += counting_arr[i - 1]
+
+    # 3. result_arr 생성
+    result_arr = [-1] * len(input_arr)
+
+    # 4. result_arr에 정렬하기(counting_arr를 참조)
+    for i in range(len(result_arr) - 1, -1, -1):
+        counting_arr[input_arr[i]] -= 1
+        result_arr[counting_arr[input_arr[i]]] = input_arr[i]
+    # for i in input_arr:
+    #     counting_arr[i] -= 1
+    #     result_arr[counting_arr[i]] = i
+
+    return result_arr
+
+
+a = [0, 4, 1, 3, 1, 2, 4, 1]
+
+print(counting_sort(a, 5))  # [0, 1, 1, 1, 2, 3, 4, 4]
+```
 ## 완전검색
 - 모든 경우의 수를 나열해보고 확인하는 기법
 - 경우의 수가 상대적으로 작을 때 유용
@@ -175,6 +241,43 @@ for i in range(3):
                 bit[3] = i
                 print_subset(bit)
   ```
+
+```py
+'''
+10
+-7 -5 2 3 8 -2 4 6 9
+'''
+N = 100
+# arr = list(map(int,  '-7 -5 2 3 8 -2 4 6 9 0'.split()))
+arr = list(range(1, 101))
+# 부분집합의 합이 55 미만인 경우만 모은 리스트
+# print(arr)
+print(2**N)
+# print(1 << N)
+# print(bin(1024))
+# for i in range(1, 1 << N):
+#     lst = []
+#     print(i, '번째 경우의 수')
+#     for j in range(N-1, -1, -1):
+#         if i & (1 << j):
+#             lst.append(arr[j])
+#             if sum(lst) >= 55:  # 부분집합의 합이 55이상이 되면조사 종료
+#                 break
+#     if sum(lst) < 55:   # 부분집합의 합이 55 미만인 경우만 출력
+#         print(lst)
+        # print(1 << j)
+        # i번째 경우의 수에, j번째 요소가 포함 되어있는 부분집합인지 확인하는코드
+        # i번째가 3번째라면 -> 0b 0011
+        # j번쨰 요소 (0번쨰, 1번째, 2번째...) -> 0b 0001, 0010, 0011
+        # if i & (1 << j):
+        #     lst.append(arr[j])
+    # if sum(lst) == 0:
+    #     print(lst)
+    #     print('있어용')
+    #     break
+    # print(lst)
+
+```
 ### 비트 연산자
   - 상태를 구분할 수 있는 최소 단위. 비트단위로 연산
   - &,|,<(왼쪽으로 이동),>(오른쪽으로 이동)
@@ -312,7 +415,7 @@ def SelectionSort(a,N):
         - 정렬알고리즘을 이용하여 자료 정렬하기
         - 원하는 순서에 있는 자료 가져오기
     - 1번부터 k번째까지 작은 원소들을 찾아 배열의 앞쪽으로 이동시키고
-    배열의 k번째를 반환한다
+    배열의 k번째를 반환한다. 셀렉트소트로 앞쪽으로 이동.필요한만큼만 정렬이구나
     - k 가 비교적 작을 때 유용. O(kn)의 수행시간
 
 ```python
