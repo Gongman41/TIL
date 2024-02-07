@@ -428,8 +428,103 @@ def Select(arr,K):
         arr[i], arr[min_idx] = arr[min_idx], arr[i]
     return arr[K-1]
 ```
- 
+  
+## String
+### 패턴매칭
+     - 고지식한 알고리즘: 처음부터 끝까지 차례대로 순회, 일일이 비교
+```python
+p = "is" #찾을 패턴
+t = 'This is a book~!'
+M = len(p)
+N = len(t)
+
+def BruteForce(p,t):
+    j = 0
+    i = 0
+    while j < M and i < N:
+        if t[i] != p[j]:
+            i = i - j
+            j = -1
+        i = i+1
+        j = j + 1
+    if j == M : return i - M
+    else: return -1
+```
+최악의 경우 O(MN)
+
+## KMP 알고리즘
+- 매칭이 실패했을 때 돌아갈 곳을 계한.
     
+
+## 보이즈 무어
+- 오른쪽에서 왼쪽으로 비교
+- 패턴에 오른쪽에 있는 문자가 불일치하고 이 문자가 패턴내에
+존재하지 않는경우 이동거리는 패턴의 길이만큼이 된다
+  
+# 스택
+ - 특성: 자료를 쌓아올린 형태의 자료구조
+    - 스택에 저장된 자료는 '선형구조'를 갖는다
+        - 자료간의 관계가 1대1의 관계를 갖는다
+        <-> 비선형구조:1대N(트리)
+        스택에 자료를 삽입하거나 스택에서 자료를 꺼낼 수 있음
+    - 후입선출
+ - 구현
+    - 자료구조: 자료를 선형으로 저장할 저장소
+        - 배열 사용
+        - 저장소 자체를 스택이라 부르기도 함
+        - 맨 위 요소를 top이라 함
+    - 연산: 삽입(push), 삭제(pop),isEmpty, peek(top 원소 반환)
+        - 공백일 경우 top = None. 인덱스를 가리키는 변수
+    
+ ```python
+while top >= 0
+top -= 1
+tmp = stack(top+i)
+
+``` 
+```python
+def push(n):
+    global top
+    top += 1
+    if top == size:
+        print("overflow")
+    else:
+        stack[top] = n
+        
+top = -1
+size = 10
+stack = [0]*10
+```
+```python
+top += 1
+stack[top] = 10
+
+while top >= 0
+    top -= 1
+    print(stack[top+1])
+```
+pop은 top만 변경
+
+ - 스택구현 고려사항
+    - 1차원 배열을 사용하여 구현 시 구현 용이, but 스택 크기 변경 어렵
+    - 동적 구현
+- 재귀 호출    
+    
+## Memoization
+    - 재귀호출 내 중복호출
+    - 이전에 계산한 값을 메모리에 저장해 계산 빠르게
+    - 동적 계획법의 핵심 O(2^n) 에서 O(N)까지 줄이기 가능
+```python
+def fibo1(n):
+    global memo  
+    if n >= 2 and memo[n] == 0:
+        memo[n] = fibo1(n-1) + fibo1(n-2)
+    return memo[n]
+memo = [0]*(n+1)
+memo[0] = 0
+memo[1] = 1
+```
+
     
     
     
