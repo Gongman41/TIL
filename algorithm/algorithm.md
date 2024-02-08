@@ -524,9 +524,80 @@ memo = [0]*(n+1)
 memo[0] = 0
 memo[1] = 1
 ```
+## DP
+ - 동적계획법: 최적화 문제를 해결하는 알고리즘
+    - 작은 부분 문제들을 해결하고 그 해를 이용해 큰 크기의 부분문제를 해결
+    - 완전탐색을 효율적으로 하는 느낌
+    - memoization울 재귀적 구조에 사용(함수 호출,사용하는데 시간 오래 걸림)하는 것보다
+    Dp를 반복적 구조로 구현한 것이 성능면에서 효율적이다
+        - 재귀적 구조는 내부에 시스템 호출 스택을 사용하는 오버헤드가 발생하기 때문  
+        - 최대 호출 깊이.
+    
+## DFS
+ - 비선형 구조인 그래프 구조는 그래프로 표현된
+    모든 자료를 빠짐없이 검색하는 게 중요
+    - 깊이 우선 탐색: 여러 자료구조에서 사용가능
+      - 깊게 가다가 갈림길(스택으로 저장)로 다시 왔다갔다 왔다.
+      - 안가본 곳, 지금 위치 push하고 내려감, 다 가봄, pop하고 받은 정점으로 이동,다시 반복  
+      - 정점,간선 
+    
+```python
+def dfs(i):
+    visited = [0]*(V+1)
+    st = []
+    visited[i] = 1 #시작점 방문
+    print(i)
+    while True: # 탐색
+        for w in adji[i]:
+            if visited[w] == 0:
+                st.append(i) # push(i), i를 지나서 w에 방문
+                i = w            
+                visited[i] = 1
+                print(i)
+                break
+        else:       # i에 남은 인접 정점이 없으면
+            if st: # 스택이 비어있지 않으면(지나온 정점이 남아 있으면)
+                i = st.pop()
+            else: # 스택이 비어있으면(출발점에서 남은 정점이 없으면)
+                break
+    # visited, stack 생성 및 초기화
+V,E = map(int,input().split())
+arr = list(map(int,input().split()))
 
+adji = [[] for _ in range(V+1)]
+for i in range(E):
+    n1, n2 = arr[i*2],arr[i*2+1]
+    adji[n1].append(n2)
+    adji[n2].append(n1) # 방향이 없는 경우_
+dfs(1,V)
+```
+ 반복문으로
+```python
+def dfs(i):
+    visited[i] = 1 #방문표시
+    print(i) # 출력
+    #i에 인접하고 방문안한 w가 있으면
+    for w in adji[i]:
+        if visited[w] == 0:
+            dfs(w)
     
-    
+    # visited, stack 생성 및 초기화
+V,E = map(int,input().split())
+arr = list(map(int,input().split()))
+
+adji = [[] for _ in range(V+1)]
+for i in range(E):
+    n1, n2 = arr[i*2],arr[i*2+1]
+    adji[n1].append(n2)
+    adji[n2].append(n1) # 방향이 없는 경우_
+visited = [0]*(V+1)
+dfs(1,V)
+```
+ 재귀로. 하지만 깊이제한때문에 반복으로
+ 간선의 계수 유의.
+
+- 너비 우선 탐색
+   
     
     
             
