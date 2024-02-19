@@ -1,50 +1,37 @@
-'''
-정사각형으로 이루어져 있는 섬과 바다 지도가 주어진다. 섬의 개수를 세는 프로그램을 작성하시오.
+import math
 
+TABLE_WIDTH = 254
+TABLE_HEIGHT = 124
+NUMBER_OF_BALLS = int(input())
+HOLES = [[0, 0], [130, 0], [260, 0], [0, 130], [130, 130], [260, 130]]
+balls = [list(map(int,input().split())) for _ in range(NUMBER_OF_BALLS)]
+angle = 0
+power = 100
+r = 2.5
 
-
-한 정사각형과 가로, 세로 또는 대각선으로 연결되어 있는 사각형은 걸어갈 수 있는 사각형이다. 
-
-두 정사각형이 같은 섬에 있으려면, 한 정사각형에서 다른 정사각형으로 걸어서 갈 수 있는 경로가 있어야 한다. 
-지도는 바다로 둘러싸여 있으며, 지도 밖으로 나갈 수 없다.
-입력은 여러 개의 테스트 케이스로 이루어져 있다. 각 테스트 케이스의 첫째 줄에는 지도의 너비 w와 높이 h가 주어진다. 
-w와 h는 50보다 작거나 같은 양의 정수이다.
-
-둘째 줄부터 h개 줄에는 지도가 주어진다. 1은 땅, 0은 바다이다.
-
-입력의 마지막 줄에는 0이 두 개 주어진다.
-
-
-'''
-from collections import deque
-def until_whe(row,col):
-    global count
-    check_list[row][col] = 1
-    for i in range(8):
-        if 0 <= row+delt_r[i] <= W-1 and 0 <= col +delt_c[i] <= H-1 and check_list[row+delt_r][col+delt_c] == 0:
-            check_list[row+delt_r][col+delt_c] = 1
-            if mapp[row+delt_r][col+delt_c] == 1:
-                land_dq.append([row+delt_r,col+delt_c])
-    if mapp[row][col] == 1 and not land_dq:
-        count += 1
-    if mapp[row][col] != 1 and not land_dq:
-        while not mapp[row][col]:
-            
-            
-    while land_dq:
-        until_whe(land_dq.popleft())
-        
-while True:
-    count = 0
-    W,H = map(int,input().split())
-    mapp = [[] for _ in range(H)]
-    check_list = [[0]*W for _ in range(H)]
-    for h in range(H):
-        mapp[h] = list(map(int,input().split()))
-    land_dq = deque([])
-    delt_r = [0,1,0,-1,1,1,-1,-1]
-    delt_c = [1,0,-1,0,1,-1,1,-1]
+for i in range(1, len(balls)):
+    target = []
+    b = 10e10
+    for j in range(len(HOLES)):
+        dist = math.sqrt((balls[i][0] - HOLES[j][0])**2 + (balls[i][1] - HOLES[j][1])**2)
+        if dist < b:
+            b = dist
+            target = HOLES[j]
+    print(target)
     
+    x = abs(balls[0][0] - target[0])
+    y = abs(balls[0][1] - target[1])
+    a = math.sqrt(x**2 + y**2)
+    c = math.sqrt((balls[0][0] - balls[i][0])**2 + (balls[0][1] - balls[i][1])**2)
+    ga = math.atan2(y, x)
     
-    if (W,H) == (0,0):
-        break
+    cos_value = (a**2 + b**2 - c**2) / (2 * a * b)
+    
+    if cos_value <= -1:
+        print("180")
+    elif cos_value >= 1:
+        print("0")
+    else:
+        # atan2 함수를 사용하여 각도를 계산합니다.
+        theta = math.degrees(math.atan2(y, x))
+        print(theta)
