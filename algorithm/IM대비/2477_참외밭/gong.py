@@ -1,5 +1,5 @@
-import sys
-sys.stdin = open('input.txt')
+# import sys
+# sys.stdin = open('input.txt')
 K = int(input())
 point_lst = []
 start_point = [500,500]
@@ -26,16 +26,14 @@ for _ in range(6):
     max_y = max(max_y, start_point[1])
     min_y = min(min_y, start_point[1])
 
-sm_r = [0,1000]
-sm_l = [1000,0]
+sm_lst = []
 for p in point_lst:
     if not(p[0] in (min_x,max_x)  and p[1] in (min_y,max_y)):
-        if sm_r[0] <= p[0] and sm_r[1] >= p[1]:
-            sm_r = p
-        if sm_l[0] >= p[0] and sm_l[1] <= p[1]:
-            sm_l = p
-sm_box = abs((sm_l[0]-sm_r[0])*(sm_l[1]-sm_r[1]))
+        if not (min_x < p[0] < max_x and min_y < p[1] < max_y):
+            sm_lst.append(p)
+sm_box = abs((sm_lst[0][0]-sm_lst[1][0])*(sm_lst[0][1]-sm_lst[1][1]))
 bg_box = (max_x-min_x)*(max_y-min_y)
+print(sm_box,bg_box)
 print(K*(bg_box-sm_box))
 
 
