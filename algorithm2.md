@@ -91,3 +91,54 @@ print(f'{t:.20f}')
 -  a 출력 후 a += 1
 -  b 출력 후 b += 1
 -  }
+
+## 재귀호출
+- 반복문은 코드를 n번 반복
+- 재귀호출은 n 중 반복문 만들기
+- 함수 호출 시 int타입 객체를 전달하면 값만 복사된다
+-  기저조건: 무한 재귀호출을 막는 것
+## 완전탐색
+- 순열: 서로 다른 N개에서 R개를 중복없이 순서를 고려하여 나열하는것
+- 중복순열: 중복 가능 순열
+    - 재귀호출을 할 때마다 이동경로를 흔적으로 남긴다
+    - 가장 마지막 레벨에 도착했을 때  이동경로를 출력한다
+    - print는 마지막 레벨에 도착했을 때 출력
+    - 이동할 곳의 위치를 path리스트에 기록
+```python
+path = []
+
+def KFC(x):
+    if x == 2:
+        print(path)
+        return
+    for i in range(3):
+        path.append(i)
+        KFC(x+1)
+        path.pop()
+KFC(0)
+```    
+- 중복을 취급하지 않는 순열 구현방법
+    - 중복순열 코드를 작성한다
+    - 중복을 제거하는 코드를 추가하면 순열 코드 됨
+    
+- 중복 제거 원리
+    - 전역리스트를 사용하면 이미 선택했던 숫자인지 아닌지 구분할 수 있다
+    -  이를 used,visited 배열이라고 함
+    - 재귀호출을 하기 직전 이미 선택했던 숫자인지 검사하는 코드 필요
+```python
+used = [False, False, False] #브랜치 개수
+path = []
+
+def KFC(x):
+    if x == 2:
+        print(path)
+        return
+    for i in range(3):
+        if used[i] == True:continue
+        used[i] = True
+        path.append(i)
+        KFC(x+1)
+        path.pop()
+        used[i] = False
+KFC(0)
+```    
