@@ -142,3 +142,102 @@ def KFC(x):
         used[i] = False
 KFC(0)
 ```    
+
+## 부분집합,조합/그리디
+- 부분집합 찾기
+  - 완전 탐색(학습용)
+    중복순열로 풀기
+  -  binary counting(실전용)
+    원소 수에 해당하는 N개의 비트여ㅑㄹ을 이용
+```python
+arr = ['A','B','C']
+n = len(arr)
+def get_sub(tar):
+    for i in range(n):
+        if tar & 0x1:
+            print(arr[i],end='')
+        tar >>= 1
+
+for tar in range(1<<n):
+    print('{',end='')
+    get_sub(tar)
+    print('}')
+```     
+```python
+arr = ['A','B','C','D','E']
+n = len(arr)
+
+def get_count(tar):
+  cnt = 0
+  for i in range(n):
+      if tar & 0x1: #1비트가 1인지 확인하는 코드
+        # 십진수로 써도 가능은 한데 가독성문제
+          cnt+= 1
+      tar >>= 1#체크하고 밀고
+    # right_shift 비트 연산자 -> 오른쪽 끝 비트를 하나씩 제거
+  return cnt
+result = 0
+for tar in range(1<<n):
+  if get_count(tar) >= 2:
+    result += 1
+print(result)
+```     
+
+- 순열과 조합 차이
+  조합: 서로 다른 n 개의 원소를 순서없이 골라낸 것
+```python
+arr = ['A','B','C','D','E']
+path = []
+
+def run(lev,start):
+  if lev == n:
+    print(path)
+    return
+  for i in range(start,5):
+    path.append(arr[i])
+    run(lev +1, i+1)
+    path.pop()
+
+run(0,0)
+```
+
+```python
+N = 3
+path = []
+
+def func(lev, start):
+    if lev == N:
+        print(path)
+        return
+    for i in range(1,7):
+        path.append(i)
+        func(lev + 1, i)
+        path.pop()
+func(0)
+```
+
+## 그리디
+```python
+person = [15,30,50,10]
+n = len(person)
+person.sort()
+sum = 0
+left_person = n -1
+```
+```python
+target = 30
+things = [(5,50),(10,60),(20,140)]
+
+things.sort(key = lambda x : (x[1]/x[0]), reverse = True)
+
+sum = 0
+
+for kg, price in things:
+    per_price = price/kg
+    if target < kg:
+        sum += target * per_price
+        break
+    sum += price
+    target -= kg
+print(int(sum))
+```

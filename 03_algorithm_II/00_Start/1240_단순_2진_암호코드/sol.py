@@ -1,81 +1,85 @@
 import sys
 sys.stdin = open('input.txt')
+'''
+    각 정수에 해당하는 패턴
+    '0001101': 0,
+    '0011001': 1,
+    '0010011': 2,
+    '0111101': 3,
+    '0100011': 4,
+    '0110001': 5,
+    '0101111': 6,
+    '0111011': 7,
+    '0110111': 8,
+    '0001011': 9,
+'''
+'''
+    패턴에 따른 비율을 키값으로 지정 
+    시작 지점 0의 개수는 각 정수의 시작점 판별에 도움 안됨
+    0000000001... -> 0번 부터 조사하면서 1을 만날때까지 pass
+             ↑ 1을 만난 시점부터 1의 연속된 수를 파악
+    만약, 
+    00000011010.... 이었다면
+          ↑↑    1이 2개
+            ↑   0이 1개
+             ↑  1이 1개 이므로 2, 1, 1 로 0에 해당하는 정수가 됨.
+'''
+pattern = {
+    (2, 1, 1): 0,
+    (2, 2, 1): 1,
+    (1, 2, 2): 2,
+    (4, 1, 1): 3,
+    (1, 3, 2): 4,
+    (2, 3, 1): 5,
+    (1, 1, 4): 6,
+    (3, 1, 2): 7,
+    (2, 1, 3): 8,
+    (1, 1, 2): 9
+}
 
-def check_right(srt,m):
-    sct_num = ''
-    global full_sct_num
-    full_sct_num = []
-    for i in range(8):
-        if srt+7*(i+1) >= m:
-            return 0
-        sct_num = ''.join(secret[srt+7*i:srt+7*(i+1)]) #zip인가 뭐로
-
-        if sct_num == '0001101':
-            full_sct_num.append(0)
-        elif sct_num == '0011001':
-            full_sct_num.append(1)
-        elif sct_num == '0010011':
-            full_sct_num.append(2)
-        elif sct_num == '0111101':
-            full_sct_num.append(3)
-        elif sct_num == '0100011':
-            full_sct_num.append(4)
-        elif sct_num == '0110001':
-            full_sct_num.append(5)
-        elif sct_num == '0101111':
-            full_sct_num.append(6)
-        elif sct_num == '0111011':
-            full_sct_num.append(7)
-        elif sct_num == '0110111':
-            full_sct_num.append(8)
-        elif sct_num == '0001011':
-            full_sct_num.append(9)
-        else:
-            return 0 
-    return 1
-
-
-    
-    
 T = int(input())
-for tc in range(1,T+1):
-    N,M = map(int,input().split())
-    secret = []
-    one_point = 0
-    full_sct_num = []
-    for n in range(N):
-        tem = input()
-        if '1' in tem:
-            secret = tem
 
-            #3:2,3:1,2:2,2:1,1:4,1:1,1:2,1:1,1:3.1:2
-    one_point = secret.index('1')
-    if 0 <= one_point-3:
-        for pnt in range(one_point-3,one_point):
-            if  check_right(pnt,M):
-
-                break
-    elif 0 <= one_point-2:
-        for pnt in range(one_point-2,one_point):  
-            if  check_right(pnt,M):
-                break 
-    elif 0 <= one_point-1:
-        for pnt in range(one_point-1,one_point):
-            if  check_right(pnt,M):
-                break
-    if not full_sct_num:
-        print(f'#{tc} 0')
-    else:
-        result = 0
-        for f in range(4):
-            result += full_sct_num[2*f]*3 + full_sct_num[2*f+1]
-        if result % 10 == 0:
-            print(f'#{tc} {sum(full_sct_num)}')
-        else:
-            print(f'#{tc} 0')
-
-
-                
-
-    
+for tc in range(1, T+1):
+    N, M = map(int, input().split())
+    data = [list(map(int, input())) for _ in range(N)]
+    print(f'#{tc}', end=' ')
+    for x in range(N):
+        # 0만 있는 행은 필요없으므로 set으로 중복제거후 2개 이상 (0, 1) 이 있느 경우에만
+        if len(set(data[x])) == 2:
+            y = 0       # M보다 작은 동안
+            tmp = []    # 정수 패턴 누적
+            while y != M:
+                # 첫번째 줄인 경우, 현재 위치의 값이 1 이거나
+                # 첫번째 줄이 아닌 경우에는, 내 윗줄이 0인 경우에만
+                '''
+                    000000000000... 
+                    000110100011... 
+                       ↑ 내 위치가 1이지만 내 위가 0인 부분에서만 조사한다.
+                        
+                    000110100011... 
+                    000110100011...
+                       ↑ 내 위치가 1인데, 내 위가 1이면 위에서 이미 똑같은 패턴을 조사 했었을 것
+                '''
+                if (x == 0 and data[x][y] == 1) or (data[x][y] == 1 and data[x-1][y] == 0):
+                    # 0, 1, 0, 1 이 각각 몇번 나온지 센다.
+                    c = {0: 0, 1: 0, 2: 0, 3: 0}
+                    for k in range(4):
+                        # k → 0 1 2 3 % 2 => 0 1 0 1
+                        while data[x][y] == (k % 2):
+                            c[k] += 1
+                            y += 1
+                    tmp.append(pattern[(c[1], c[2], c[3])])
+                y += 1
+            # 암호 해독
+            result = 0
+            for i in range(8):
+                if i % 2:
+                    result += tmp[i]
+                else:
+                    result += tmp[i] * 3
+            if result % 10:
+                print(0)
+            else:
+                print(sum(tmp))
+            break
 
