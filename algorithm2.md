@@ -40,6 +40,9 @@ BIN 2진수
     - xor 두번하면 원래 수로 돌아옴, 암호화에 사용
 - 2진수_0b를 접두어
 - 10진수_0x를 접두어
+- 16진수: 0xBB3
+
+
 bin() 2진수로, hex()16진수로, int(,) 10진수로
  
 
@@ -53,7 +56,7 @@ bin() 2진수로, hex()16진수로, int(,) 10진수로
         - 표현방법: 수를 모두 뒤집고 + 1
         - 2의 보수를 두번 취하면 원래의 값으로 돌아옴
   - Not 연산자
-    - (~): 모든 비트를 반전시킨다
+    - (~): 모든 비트를 반전시킨다 _ 이걸로 보수 생성?
         - ~4는 -5
 ```python
 N,M = map(int,input().split())
@@ -72,6 +75,7 @@ else:
     - 파이썬은 굉장히 넓은 범위의 실수 표현가능
     - +로 넘어가면 inf, -로 넘어가면 0으로 표현
     - print(0.1+0.1+0.1 == 0.3) #False
+      - 실수를 내부적으로 근사적으로 관리. 소수점이 있는 10진수를 2진수로 변환할 경우 문제 발생. 반올림 사용?
 ```python
 t = 0.1
 print(f'{t:.20f}')
@@ -94,9 +98,10 @@ print(f'{t:.20f}')
 
 ## 재귀호출
 - 반복문은 코드를 n번 반복
-- 재귀호출은 n 중 반복문 만들기
+- 재귀호출은 n 중 반복문 만들기. 하나의 문제를 더 작은 문제로 쪼개기
 - 함수 호출 시 int타입 객체를 전달하면 값만 복사된다
--  기저조건: 무한 재귀호출을 막는 것
+-  기저조건: 무한 재귀호출을 막는 것,깊이
+- 재귀호출코드의 개수가 브랜치 개수
 ## 완전탐색
 - 순열: 서로 다른 N개에서 R개를 중복없이 순서를 고려하여 나열하는것
 - 중복순열: 중복 가능 순열
@@ -108,10 +113,10 @@ print(f'{t:.20f}')
 path = []
 
 def KFC(x):
-    if x == 2:
+    if x == 2: # 값 개수
         print(path)
         return
-    for i in range(3):
+    for i in range(3): #나올 수 있는 값의 개수
         path.append(i)
         KFC(x+1)
         path.pop()
@@ -143,20 +148,91 @@ def KFC(x):
 KFC(0)
 ```    
 
+```py
+path = []
+cnt = 0
+def kfc(x,sum):
+  global cnt
+  if sum > 10:
+    return
+  if x == 3:
+    cnt += 1
+    return
+  
+  for i in range(1,7):
+    path.append(i)
+    kfc(x + 1, sum +i)
+    path.pop()
+
+kfc(0,0)
+print(cnt)
+```
+```py
+card = ['A','J','Q','K']
+path = []
+cnt = 0
+
+def cont_three():
+  if path[0] == path[1] == path[2] : return True
+  if path[1] == path[2] == path[3] : return True
+  if path[2] == path[3] == path[4] : return True
+  return True
+
+def permu(lev):
+  global cnt
+  if lev == 5:
+    if cont_three() : cnt += 1
+    return
+  
+  for i in range(4):
+    path.append(card[i])
+    permu(lev+1)
+    path.pop()
+
+permu(0)
+print(cnt)
+```
+카트 배열최소합
 ## 부분집합,조합/그리디
 - 부분집합 찾기
   - 완전 탐색(학습용)
     중복순열로 풀기
+
+```py
+arr = ['O','X']
+path = []
+name = ['MIN','CO','TIM']
+
+def print_name():
+  print('{', end = '')
+  for i in range(3):
+    if path[i] == 'O':
+      print(name[i], end = ' ')
+  print('}')
+
+def run(lev):
+  if lev == 3:
+    print_name()
+    return
+  
+  for i in range(2):
+    path.append(arr[i])
+    run(lev + 1)
+    path.pop()
+
+run(0)
+```
   -  binary counting(실전용)
     원소 수에 해당하는 N개의 비트여ㅑㄹ을 이용
+
 ```python
 arr = ['A','B','C']
 n = len(arr)
 def get_sub(tar):
     for i in range(n):
-        if tar & 0x1:
-            print(arr[i],end='')
-        tar >>= 1
+        if tar & 0x1: #0b110이 주어지면 BC 출력하는 함수
+            print(arr[i],end='') #첫번째 자리가 1이면 해당 함수 출력
+        tar >>= 1# 검사한 한 자리를 제거
 
 for tar in range(1<<n):
     print('{',end='')

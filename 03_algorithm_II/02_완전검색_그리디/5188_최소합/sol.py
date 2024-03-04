@@ -8,7 +8,7 @@ delta 탐색
 dx = [0, 1]
 dy = [1, 0]
 
-def search(x, y):   # x, y 부터 조사 시작.
+def search(x, y):   # x, y 부터 조사 시작. BFS. 스택,deque에다 값을 현재값을 넣어놓고 while문에서 pop()해서 순차적으로 진행
     # 누적값인데 왜 data[x][y]의 값으로 초기화?
     stack = [[x, y, data[x][y]]]    # 해당 지점 도달까지 들었던 누적값
     while stack:    # 모든 조사 대상 조사 완료 할 때 까지

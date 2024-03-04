@@ -1,0 +1,36 @@
+N = int(input())
+n_lst = []
+st_lst = []
+bal_lst = []
+
+result_list = []
+for i in range(1,10):
+    for j in range(1,10):
+        if i != j:
+            for k in range(1,10):
+                if k not in (i,j):
+                    result_list.append(str(i)+str(j)+str(k))
+
+for _ in range(N):
+    n,st,bal = map(str,input().split())
+    tem_lst = []
+    for m in range(len(result_list)):
+        tem_st,tem_bal = 0,0
+        for i in range(3):
+            if n[i] == result_list[m][i]:
+                tem_st += 1
+            elif n[i] in result_list[m]:
+                tem_bal += 1
+        if str(tem_st) == st and str(tem_bal) == bal:
+            tem_lst.append(result_list[m])
+    result_list = tem_lst
+print(len(result_list))
+        
+            
+        
+        
+    
+                    
+
+    
+            

@@ -91,10 +91,34 @@ for tc in range(1,T+1):
 
     print(f'#{tc}', ''.join([str(item) for item in n_list]))
 
+'''
+def backtrack(idx=0,result=0):                      # 대 트 래 킹
+    if idx == cnt:
+        ans.append(result)
+        return
+    
+    for i in range(len(num)-1):
+        for j in range(i+1, len(num)):
+            
+            num[i], num[j] = num[j], num[i]
 
+            result = int("".join(num))
+            if (idx,result) not in visit:
+                backtrack(idx+1,result) #본 배열의 요소의 위치 변경, result를 저장하는건 출력용
+                visit.append((idx,result))
 
+            num[i], num[j] = num[j], num[i]
+            
 
+for t in range(int(input())):
+    num,cnt = input().split()
+    num = list(num)
+    cnt = int(cnt)
+    visit = []
+    ans = []
 
+    backtrack()
 
+    print(f"#{t+1} {max(ans)}")'''
 
 
