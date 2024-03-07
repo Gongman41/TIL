@@ -1,15 +1,17 @@
 from collections import deque
 N = int(input())
 target_lst = [int(input()) for _ in range(N)] #메모리 낭비긴 함
+target_lst.append(-1)
 target_deq = deque(target_lst)# 위에는 순열 순서, 이거는 없앨 거. 왜 이렇게 했냐.
 n_lst = []# deque가 대가리 값 반환하는 메서드가 없는 줄 몰랐음. 이거는 append할 리스트
 result = []#결과
-j = 0 # target_lst 랑 deq랑 싱크 맞추기용
+
 a = target_deq.popleft()
 for n in range(1,N+1):
     
     n_lst.append(n)
     result.append('+')
+    print(result)
     while n >= a:
         if not a in n_lst:
             print('no')
@@ -36,5 +38,5 @@ for n in range(1,N+1):
 #         result = ['no'] # 다 돌지 않았고 n이 더 큰데 타겟이 작고 이놈이 앞으로 들어올 일이 없을 때
 #         break
     
-# for i in range(len(result)):
-#     print(result[i])
+for i in range(len(result)):
+    print(result[i])
