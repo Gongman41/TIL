@@ -132,3 +132,41 @@ margin collapsing(마진상쇄)
   - content_ 여러줄, items_한 줄, self_요소 한 개
 
   - justify-items,self 속성이 없는 이유: 필요 없기 때문. margin auto를 통해 정렬 및 배치가 가능
+
+
+## Bootstrap
+- CSS 프론트엔드 프레임워크(Toolkit), 미라 만들어진 디자인 요소들을 제공하여 웹사이트를 빠르고 쉽게 개발
+- 온라인 공간 어딘가에 있는 css파일을 가져옴. 확장자도 .css , body에서는 js.
+- CDN: 지리적 제약없이 빠르고 안전하게 콘텐츠를 전송할 수 있는 전송기술. 지역마다 CDN서버를 놔 지리적으로 가까운 CDN서버에 콘텐츠를 저장하여 사용자에게 전달
+- Bootstrap CDN
+- 사용법
+  - 모든 게 class로 구현 {property}{sides}-{size}
+    sides: t,b,s(start),e(end), y(top,bottom), x(left,right), blank(4 sides)
+    size: 1_ 0.25rem_ 4px
+    !important는 사용자가 똑같은 이름으로 사용하는 클래스가 있을 수도 있기때문에
+reset CSS: 모든 브라우저는 각자의 user agent stylesheet(브라우저 기본제공 스타일)을 가지고 있음
+  이 설정이 브라우저마다 상이. 따라서 동일하게 보이게 만들어야함 
+  - Normalize CSS
+    - Reset CSS 방법 중 대표적인 방법, 웹 표준 기준으로 브라우저 중 하나가 불일치 한다면 차이가 있는 브라우저 수정.
+    - bootstrap-reboot.css라는 파일명으로 normalize css를 커스텀해서 사용
+  
+- typography: 제목, 본문 텍스트, 목록 등
+  - Display headings: 기존보다 더 눈에 띄는 제목이 필요할 경우
+
+- bootstrap colors
+  - 색상명으로 키워드를 사용
+- Bootstrap Component
+  - alerts
+  - badges
+- 사용이유
+  - 빠른 개발, 유지보수, 반응형 웹 디자인, 커스터마이징 용이, 크로스 브라우징(모든 브라우저에서 잘) 지원
+- 단점
+  - 개발자의 자유도 제한
+  
+## semantic Web
+- 웹 데이터를 의미론적으로 구조화된 형태로 표현하는 방식
+- 검색엔진에 영향
+
+- OOCSS: 객체 지향적 접근법으로 css구성
+  - 구조와 스킨을 분리
+  - 컨테이너와 컨텐츠를 분리
