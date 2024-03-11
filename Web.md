@@ -170,3 +170,40 @@ reset CSS: 모든 브라우저는 각자의 user agent stylesheet(브라우저 �
 - OOCSS: 객체 지향적 접근법으로 css구성
   - 구조와 스킨을 분리
   - 컨테이너와 컨텐츠를 분리
+
+### Emmet
+  - div>/cpmtaioner>h1{Hello}+nav>ul>li*5>a{Link $}
+  - 자동완성. 개빠름
+  - https://docs.emmet.io/cheat-sheet/ 치트시트 
+
+- 라인 한 줄 선택 ctrl + L
+- ctrl + D 해당 키워드 같은 애들 순서대로 선택
+- ctl + alt + 화살표: 멀티커서 (같은 라인만)
+- alt + 클릭: 멀티 커서
+- alt + 화살표: 선택한 라인 끌고가기
+- alt + shift + 화살표: 선택한 라인 복사
+
+## 반응형 웹
+### Bootstrap Grid system
+  - 웹페이지의 **레이아웃을 조정**하는데 사용되는 12개_약수가 많음-> 레이아웃 케이스 많음_의 컬럼으로 구성된 시스템
+  - 반응형 디자인을 지원해 웹페이지를 다양한 기기에서 적절하게 표시
+  - 기본 요소
+    - container:column들을 담고 있는 공간
+    - column:실제 컨텐츠를 포함하는 부분
+    - Gutter: column사이 여백영ㅇ역_ x축은 padding, y축은 margin으로 여백 생성(외부영역)
+  - 편집 디자인에서 나온 개념
+    
+### Responsive Web Design
+  - 12개의 칼럼과 6개 breakpoint를 사용_ 부트시스템 그리드 시스템
+  - grid system breakpoints
+    - 화면 너비에 따라 6개의 분기점 제공
+    - 각 breakpoints 마다 설정된 최대 너비값 **이상으로** 화면이 커지면 grid system이 변경
+    - 중간 중간 생략 가능
+    - col-sm-, xm은 .col- (키워드 없음)
+  - media query(@media)로 작성된 grid system의 breakpoints
+  - card 전용 grid system_ 칸수가 아니라 개수.
+
+web dev
+
+
+
