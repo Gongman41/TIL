@@ -17,7 +17,6 @@ import git
 # 폴더 경로를 입력할 때, 모든 hw, ws의 하나로 모아놓은 상위폴더경로를 복사해주세요(각 과제 폴더들이 한눈에 보이는).
 # (add commit push할때, 특정 폴더(hw_1 등)를 입력하면 안됩니다.)
 '''
-
 ## 온라인 실습실의 자료들을 받아온다 => git으로 클론해온다
 ## 완성한 파일을 add commit push 한다.
 
@@ -27,7 +26,6 @@ subject = input('무슨과목인지 적어주세요(소문자) (예시 : web, py
 user_dir = input("어떤 폴더에서 작업할지 적어주세요 (폴더경로복사) : ")
 print('클론할꺼면 1, add commit push 할거면 2를 입력해주세요')
 select = int(input())
-
 while True:
     if select == 1:
         ## 온라인 실습실의 자료들을 받아온다 => git으로 클론해온다
@@ -57,7 +55,6 @@ while True:
         branch = input('브랜치 명이 무엇입니까? ex) main, origin ... : ')
         hwLst = my_complete.split()
         completeurlLst = []
-        gitUrl = []
         commitM = []
         for hw in hwLst:
             lv = hw[-1]
@@ -71,7 +68,7 @@ while True:
         for idx in range(len(completeurlLst)): # 폴더를 순회한다.
             try:
                 repo = git.Repo(completeurlLst[idx])
-                repo.git.add(update=True)
+                repo.git.add("--all")
                 repo.index.commit(commitM[idx])
                 origin = repo.remote(name=branch)
                 origin.push()
@@ -82,8 +79,3 @@ while True:
     else:
         print('clone은 1, (add commit push)는 2를 입력해주세요')
         select = int(input())
-
-
-
-    
-    
