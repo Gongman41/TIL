@@ -1,0 +1,11 @@
+{% extends "articles/base.html" %}
+
+{% block content %}
+<h1>throw</h1>
+  <form action="/catch/" method="GET">
+    {% comment %} 목적지 {% endcomment %}
+    <input type="text" name="message">
+    {% comment %} 네이버 검색어 input의 name 속성 {% endcomment %}
+    <input type="submit">
+  </form>
+{% endblock content %}

@@ -71,3 +71,38 @@ articles 앱 폴더 안에 templates 폴더 생성
 templates 폴더 안에 articles 폴더 생성
 articles 폴더 안에 템플릿 파일 생성
 
+pip install -r requirements.txt
+
+# Tempolate, URLS
+## Template system
+- 데이터 표현을 제어하면서 표현과 관련된 부분을 담당
+- DTL_ 장고 템플릿 렝기지
+  - 조건,반복,변수등의 프로그래밍적 기능을 제공하는 시스템
+  - variable: render 함수의 세번째 인자로 딕셔너리 데이터를 사용, key에 해당하는 문자열이 template에서 사용가능한 변수명이 됨. dot('.')를 사용하여 변수 속성에 접근할 수 있음
+  - Filters: 표시할 변수를 수정할 때 사용(변수|변수), chained(연결)이 가능하며 일부 필터는 인자를 받기도 함, 약 60개의 빌트인 템플릿 필터를 제공
+  - tags: 반복 또는 논리를 수행하여 제어 흐름을 만듦. 일부 태그는 시작과 종료 태그가 필요. 약 24개의 빌트인 템플릿 테그를 제공
+  - comments: {# dsds #}, {%comment%} ... {%endcomment%}
+
+django document 검색어  로 구글에 검색
+대제목보고 목차보기
+
+## 템플릿 상속
+- 만약 모든 템플릿에 bootstrap을 적용하려면_모든 템플릿에 bootstrap CDN을 작성해야?
+- 페이지의 공통요소를 포함하고 하위 템플릿이 재정의할 수 있는 공간을 정의하는. 기본skleton 템플릿을 작성하여 상속구조를 규정
+- extends tag: 자식 템플릿이 부모 템플릿을 확장한다는 것을 알림. 2개이상 사용 불가. 자식 템플릿 최상단에 작성
+- block tag: 하위 템플릿에서 재정의 할 수 있는 블록을 정의(상위 템플릿에 작성하며 하위 템플릿이 작성할 수 있는 공간을 마련.) 여러 개가 작성되기 때문에 이름 필요
+
+## HTML form
+- 데이터를 보내고 가져오기
+- HTML form element를 통해 사용자와 애플리케이션간의 상호작용 이해하기
+- URL에 주소 입력해서 요청, HTML form 태그로
+- form element: 사용자로부터 할당된 데이터를 서버로 전송, 웹에서 사용자 정보를 입력하는 여러 방식(text, password,checkbox 등)을 제공
+- name이라는 key를 보내줘서 데이터를 처리. 데이터를 제출했을 떄 서버는 name속성에 설정된 값을 통해서만 사용자가 입력한 데이터에 접근
+input의 결과는 결국 주소의 변경
+
+- action:어디, 입력데이터가 전송될 URL을 지정. 지정하지 않으면 현재 form이 있는 페이지의 URL로 보내짐
+- method:방식. GET(URL노출), POST(로그인. URL에 데이터 노출x, 인증 때 다시)
+- 여러 개의 데이터는 & 로 연결된 key=value쌍으로 구성, 기본 URL과는 ?로 구분됨
+- request.GET 은 딕셔너리 .get('message')로 값 가져옴
+- tempate 위치 지정. BASE_DIR은 최상단 폴더. 이렇게 작성하는 거는 운영체재별로 자동 변환을 위해
+- urls _ 분배기.많은 부분이 중복되고 url의 일부만 변경되는 상황 <type:변수이름>

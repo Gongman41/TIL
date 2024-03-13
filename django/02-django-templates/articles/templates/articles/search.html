@@ -1,0 +1,12 @@
+{% extends "articles/base.html" %}
+
+{% block content %}
+  <form action="https://www.search.naver.com/search.naver">
+    {% comment %} 목적지 {% endcomment %}
+    <label for="message">검색: </label>
+    <input type="text" id = "message" name="query">
+    {% comment %} 네이버 검색어 input의 name 속성 {% endcomment %}
+    <input type="submit">
+  </form>
+{% endblock content %}
+
