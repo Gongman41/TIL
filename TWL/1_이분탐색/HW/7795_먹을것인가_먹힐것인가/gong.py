@@ -14,5 +14,5 @@ for tc in range(T):
                 break
     print(cnt)
 
-
+# 크기가 달라지는 첫번째꺼
 
