@@ -106,3 +106,26 @@ input의 결과는 결국 주소의 변경
 - request.GET 은 딕셔너리 .get('message')로 값 가져옴
 - tempate 위치 지정. BASE_DIR은 최상단 폴더. 이렇게 작성하는 거는 운영체재별로 자동 변환을 위해
 - urls _ 분배기.많은 부분이 중복되고 url의 일부만 변경되는 상황 <type:변수이름>
+
+## URLS
+- App Url marking: 각 앱에 urls.py 생성
+- project의 url에서는 어느 앱으로 보낼지만 결정.
+- include: 프로젝트 내부 앱들의 URL을 참조할ㅇ 수 있도록 매핑하는 함수
+- url 구조 변경에 따른 문제점: 해당 주소 사용하는 모든 위치 가서 고쳐야됨 -> 이름을 따로 지어줌 + 앱이름을 앞에 태그로 사용
+- app_name 변수값 설정
+- variale 라우팅에서 html에서 받을 때 변수1 변수2 같이 받음
+## Model
+- DB의 테이블을 정의하고 데이터를 조작할 수 있는 기능들을 제공_ 테이블 구조를 설계하는 청사진
+- id필드는 django가 자동 생성. 작성한 모델 클래스는 DB에 테이블구조만듦
+- 열 = 필드
+- Model이라는 부모 클래스를 상속받음. model 관련 모든 코드가 작성되어있음. 테이블 구조 설계할 코드만 작성하면 됨
+- 필드이름, 필드 데이터 타입, (선택)필드 제약조건.
+- migrations model 클래스의 변경사항을 DB에 최종 반영하는 방법,최종 설계도. model클래스는 설계도 초안
+makemigrations(최종설계도), migrate(최종설계도 DB에 전달하여 반영)
+
+- 이미 생성된 테이블에 필드를 추가해야 한다면 기본값 설정이 필요_ 현재 대화를 유지하면서 직접 기본값 입력. 빈 값, 빈 필드 추가 불가
+- Model field: 데이터타입과 제약조건 정의, 필드 정의
+-  charField: max_length 는 필수 인자. 필드의 최대길이 결정
+- TextField() 글자수가 많을 때 사용
+- admin 계정생성 : python manange.py createsuperuser
+- 데이터베이스 초기화: migration 파일 삭제, db.sqlite3 파일 삭제.

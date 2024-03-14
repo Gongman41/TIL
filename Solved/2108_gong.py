@@ -1,6 +1,6 @@
 N = int(input())
 plus_n = [0]*4001
-minu_n = [0]*4000
+minu_n = [0]*4001
 min_n = 10e10
 max_n = -10e10
 middle = N//2+1
