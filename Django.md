@@ -16,7 +16,7 @@
   - 각 gitbash에서 다른 환경 on off 가능
   - pip list: 설치된 패키지 확인
   - 패키지간 의존성 문제_ 가상환경에 대한 정보, 패키지 목록이 공유되어야 한다_ 원격저장소에는 가상환경 파일을 올리지 않기때문
-  - pip freeze >(문자열을 쓰겠다) requirements(다른이름 가능하긴 한데 그냥 이렇게 고정).txt
+  - pip freeze >(문자열을 쓰겠다)requirements(다른이름 가능하긴 한데 그냥 이렇게 고정).txt
   - .git 같은 건가
 
 ## Django
@@ -45,7 +45,7 @@
 - 개념상. 물리적인 파일은 동등한 관계로 작성됨
 - 앱 생성 순서
   - 앱 생성
-    - python manage.py staryapp articles (앱의 이름은 복수형 지정 권장.)
+    - python manage.py startapp articles (앱의 이름은 복수형 지정 권장.)
   - 앱 등록
     - settings.py INSTALLED APPS안에 articles 넣기
 
@@ -55,7 +55,7 @@
 
 - 앱 구조
   - admin.py: 관리자용 페이지 설정
-  - model. py DB와 관련된 Model을 정의 M
+  - model.py DB와 관련된 Model을 정의 M
   - views.py 요청처리, 응답반환 V
 
 ## 요청과 응답
@@ -73,14 +73,16 @@ articles 폴더 안에 템플릿 파일 생성
 
 pip install -r requirements.txt
 
+- render 함수: 템플릿에서 사용할 데이터 context는 딕셔너리 타입으로 작성
+- 데이터를 받아서 보내고 싶다. urls.py 에 적고 render에 매개변수로 받고 보냄. 근데 이걸 url로 받는게 아니라 input으로 받아서 넘기거나 서버에서 가져오는 게 보통이잖아. 그걸 뒤에서
 # Tempolate, URLS
 ## Template system
 - 데이터 표현을 제어하면서 표현과 관련된 부분을 담당
-- DTL_ 장고 템플릿 렝기지
-  - 조건,반복,변수등의 프로그래밍적 기능을 제공하는 시스템
-  - variable: render 함수의 세번째 인자로 딕셔너리 데이터를 사용, key에 해당하는 문자열이 template에서 사용가능한 변수명이 됨. dot('.')를 사용하여 변수 속성에 접근할 수 있음
-  - Filters: 표시할 변수를 수정할 때 사용(변수|변수), chained(연결)이 가능하며 일부 필터는 인자를 받기도 함, 약 60개의 빌트인 템플릿 필터를 제공
-  - tags: 반복 또는 논리를 수행하여 제어 흐름을 만듦. 일부 태그는 시작과 종료 태그가 필요. 약 24개의 빌트인 템플릿 테그를 제공
+- HTML의 콘텐츠를 변수 값에 따라 바꾸고 싶으면 views.py에서 context로 변경
+- DTL: template에서 조건,반복,변수등의 프로그래밍적 기능을 제공하는 시스템
+  - variable: render함수의 세번째 인자로 딕셔너리 데이터를 사용. key에 해당하는 문자열이 template에서 사용가능한 변수명이 됨. . 을 사용하여 변수 속성에 접근할 수 있음
+  - Filters: 표시할 변수를 수정할 때 사용(변수+|+변수). 연결이 가능하며 일부 필터는 인자를 받기도 함.
+  - Tags: 반복 또는 논리를 수행하여 제어 흐름을 만듦. 일부 태그는 시작과 종료 태그가 필요
   - comments: {# dsds #}, {%comment%} ... {%endcomment%}
 
 django document 검색어  로 구글에 검색
@@ -97,38 +99,65 @@ django document 검색어  로 구글에 검색
 - HTML form element를 통해 사용자와 애플리케이션간의 상호작용 이해하기
 - URL에 주소 입력해서 요청, HTML form 태그로
 - form element: 사용자로부터 할당된 데이터를 서버로 전송, 웹에서 사용자 정보를 입력하는 여러 방식(text, password,checkbox 등)을 제공
-- name이라는 key를 보내줘서 데이터를 처리. 데이터를 제출했을 떄 서버는 name속성에 설정된 값을 통해서만 사용자가 입력한 데이터에 접근
-input의 결과는 결국 주소의 변경
+
 
 - action:어디, 입력데이터가 전송될 URL을 지정. 지정하지 않으면 현재 form이 있는 페이지의 URL로 보내짐
 - method:방식. GET(URL노출), POST(로그인. URL에 데이터 노출x, 인증 때 다시)
+- input(type 속성값에 따라 다양하게 받음))
+- name: 입력한 데이터에 붙이는 이름
+- input의 name속성의 key를 보내줘서 데이터를 처리. 데이터를 제출했을 떄 서버는 name속성에 설정된 값을 통해서만 사용자가 입력한 데이터에 접근
+input의 결과는 결국 주소의 변경
 - 여러 개의 데이터는 & 로 연결된 key=value쌍으로 구성, 기본 URL과는 ?로 구분됨
-- request.GET 은 딕셔너리 .get('message')로 값 가져옴
+- request에는 form으로 전송한 데이터뿐만 아니라 모든 요청관련 데이터가 담겨있다
+- request.GET 은 딕셔너리값을 가져오고 .get('message')로 value 값 가져옴
 - tempate 위치 지정. BASE_DIR은 최상단 폴더. 이렇게 작성하는 거는 운영체재별로 자동 변환을 위해
 - urls _ 분배기.많은 부분이 중복되고 url의 일부만 변경되는 상황 <type:변수이름>
 
 ## URLS
-- App Url marking: 각 앱에 urls.py 생성
+- App Url mapping: 각 앱에 urls.py 생성
 - project의 url에서는 어느 앱으로 보낼지만 결정.
-- include: 프로젝트 내부 앱들의 URL을 참조할ㅇ 수 있도록 매핑하는 함수
-- url 구조 변경에 따른 문제점: 해당 주소 사용하는 모든 위치 가서 고쳐야됨 -> 이름을 따로 지어줌 + 앱이름을 앞에 태그로 사용
+- variable routing: URL일부에 변수를 포함시키는 것. 템플릿에 많은 부분 중복, URL의 일부만 변경되는 상황일 때 사용
+  - <path_converter:variable_name>
+  - path_converter: URL변수의 타입을 지정
+- include: 프로젝트 내부 앱들의 URL을 참조할ㅇ 수 있도록 매핑하는 함수. URL의 일치하는 부분까지 잘라내고 남은 문자열부분은 후속처리를 위해 include된 URL로 전달ㅇ
+- url 구조 변경에 따른 문제점: 해당 주소 사용하는 모든 위치 가서 고쳐야됨(템플릿들) -> 이름을 따로 지어줌 + 앱이름을 앞에 태그로 사용
+-  url tag: 주어진 URL 패턴의 이름과 일치하는 절대 경로 주소를 반환
 - app_name 변수값 설정
 - variale 라우팅에서 html에서 받을 때 변수1 변수2 같이 받음
 ## Model
 - DB의 테이블을 정의하고 데이터를 조작할 수 있는 기능들을 제공_ 테이블 구조를 설계하는 청사진
+```py
+#articles/models.py
+class Article(models.Model)
+  title = models.CharField(max_length=10)
+  content = models.TextField()
+```
 - id필드는 django가 자동 생성. 작성한 모델 클래스는 DB에 테이블구조만듦
 - 열 = 필드
 - Model이라는 부모 클래스를 상속받음. model 관련 모든 코드가 작성되어있음. 테이블 구조 설계할 코드만 작성하면 됨
-- 필드이름, 필드 데이터 타입, (선택)필드 제약조건.
+- 필드(열)이름, 필드 데이터 타입, (선택)필드 제약조건.
 - migrations model 클래스의 변경사항을 DB에 최종 반영하는 방법,최종 설계도. model클래스는 설계도 초안
-makemigrations(최종설계도), migrate(최종설계도 DB에 전달하여 반영)
+makemigrations(최종설계도, git commit 유사), migrate(최종설계도 DB에 전달하여 반영, push)
 
 - 이미 생성된 테이블에 필드를 추가해야 한다면 기본값 설정이 필요_ 현재 대화를 유지하면서 직접 기본값 입력. 빈 값, 빈 필드 추가 불가
+```py
+#articles/models.py
+class Article(models.Model)
+  title = models.CharField(max_length=10)
+  content = models.TextField()
+  created_at = models.DataTimeField(auto_now_add = True)
+  #데이터가 처음 생성될때만 자동으로 현재 날짜시간을 저장
+  updated_at models.DataTimeField(auto_now=True)
+  #데이터가 저장될 때마다 자동으로 현재 날짜시간을 저장
+```
 - Model field: 데이터타입과 제약조건 정의, 필드 정의
 -  charField: max_length 는 필수 인자. 필드의 최대길이 결정
 - TextField() 글자수가 많을 때 사용
 - admin 계정생성 : python manange.py createsuperuser
-- 데이터베이스 초기화: migration 파일 삭제, db.sqlite3 파일 삭제.
+- admin.py에 작성한 모델 클래스 등록
+  - from .models import Articles
+  - admin.site.register(Article)
+- 데이터베이스 초기화: migration 파일 삭제(폴더x), db.sqlite3 파일 삭제.
 
 
 ## 반응형 웹사이트 구현
