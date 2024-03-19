@@ -98,3 +98,80 @@ def bibinarySearch(low,high, target):
 ```
 
 lower bound, upper bound.
+
+## 백트래킹 응용
+- 완전탐색 + 가지치기. 가능성이 없는 경우의 수를 제거
+```py
+# 재귀함수 팁: 파라미터는 바로 작성하지 않고 구조를 먼저 잡으면 필요한 변수들이 보임
+arr = [i for i in range(1,4)]
+
+def dfs(level):
+  if level == 3: 
+    return path
+  #재귀함수 호출
+  for i in range(len(arr)):
+    if arr[i] in path:
+      continue
+    path[level] = arr[i]
+    dfs(level+1)
+    path[level] = 0
+    # path[level] = 1
+    # dfs(level+1)
+
+    # path[level] = 2
+    # dfs(level+2)
+    
+    # path[level] = 3
+    # dfs(level+3)
+   
+```
+- 시간복잡도: 계산하기 힘듦. 최악의 경우 완전탐색
+
+## 트리
+- 싸이클이 없는_형제 노드끼리는 연결x_ 무향 연결 그래프
+- 그래프도 트리로 표현 가능
+- 차수_후보군의 수, 높이_시간복잡도
+
+## 이진트리
+- 최대 2개의 서브트리
+- 노드의 개수가 N개일 때 이진트리의 높이
+  - 최악 N, 최선 log N
+- 포화 이진트리: 모든 노드가 자식 꽉 참
+- 완전 이진트리: 왼쪽부터 잘참
+
+```py
+nodes = [[] for _ in range(14)]
+for i in range(0,len(arr),2):
+  parent_node = arr[i]
+  child_node = arr[i+1]
+  nodes[parent_node].append(child_node)
+for li in nodes:
+  for _ in range(len(li),2)
+    li.append(None)
+
+def inorder(nodeNum):
+  if nodeNum == None:
+    return
+  inorder(nodes[nodeNum][0])
+  print(nodeNum, end=' ')
+  inorder(nodes[nodeNum][1])
+
+```
+
+## 이진탐색트리(BST)
+- 탐색용 트리
+- 탐색연산의 횟수 = 트리의 높이
+- 삽입연산: 탐색실패 위치
+- 삭제연산
+  - 차수가 0인 경우: 없애기
+  - 차수가 1인 경우: 없애고 연결
+  - 차수가 2인 경우: 작은 것 중에서 제일 큰거
+
+## 힙트리
+- 키 값이 가장 큰 노드나 키 값이 가장 작은 노드를 찾기 위해 만든 자료구조
+- 최대 힙: 부모노드의 키 값 > 자식노드의 키 값
+- 최소 힙: 반대
+- 삽입: 일단 마지막에 넣기 -> 부모 비교. 최악의 경우 O(h)
+- 삭제: 루트노드만 삭제 가능
+  - 마지막 노드 넣고 자리바꾸기
+  - heapq
