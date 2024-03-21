@@ -418,3 +418,160 @@ def union(x,y):
 - 문제점
 - 해결
 - 경로압축,랭크
+
+## 최소 비용 신장 트리(MST)
+- 신장 트리: 간선의 개수를 최소화해서 모든 정점을 연결한 트리. 여러가지 방법, 싸이클 발생 x, 간선의 개수 V-1
+  - 최소 비용 신장 트리: 그 중에 비용의 합이 제일 적은 신장트리
+    - 비용이 제일 작은 간선부터
+    - 특정 노드를 시작으로 갈 수 있는 곳들 중 작은 곳으로
+- prim 알고리즘: BFS + queye  + 우선순위
+- Kruskal 알고리즘: 그리디
+  
+```py
+import sys
+sys.stfin = open("input,txt","r")
+from heapq import heappush,heappop
+def prim(start):
+  pq = []
+  MST = [0] * V
+  # 최소 비용
+  sum_weight = 0
+  # 큐 비어있는 거에다 시작점 넣어놓고 빌때까지 반복
+  # 기존에는 BFS 노드 번호만 관리
+  # PRIM 우선순위가 가중치에 따라. 가중치가 낮으면 먼저 나와야됨
+  # -> 관리해야할 데이터: 가중치, 노드번호_ 동시에 두가지 데이터 다루기
+    # class로 만들거나 튜플로 만들기
+    #  3가지 이상이 되면 class가 좋다
+  heappush(pq,(0,start))
+  while pq
+    weight, now = heappop(pq)
+    # 방문했다면
+    # 우선순위 큐 특성상 더 먼거리로 가는 방법이 큐에 저장이 되어 있기때문에 기존에 더 짧은 거리로 방문했다면 CONTINUE
+    if MST[now]:continue
+    Mst[now] = 1
+    sum_weight += weight
+    # 갈 수 있는 노드들을 보면서
+    for to in range(V):
+      # 갈 수 없거나 이미 반복했다면
+      if graph[now][to] == 0 or MST[to]:
+        continue
+      heappush(pq,(graph[now][to]),to)
+  print(f'최소비용: {sum_weight}')
+V,E = map(int,input().split())
+# 인접 행렬로 저장
+# 실습 _ 인접 리스트로 저장
+graph = [[0]* V for _ in range(V)]
+for _ in range(E):
+  s,e,w = map(int,input().split())
+
+# 기존 3-> 4로 갈수 있다
+# graph[3][4] = 1
+
+# 가중치 그래프_ 3->4로 가는데 31이라는 비용이 든다
+# graph[3][4] = 31
+  graph[s][e] = w
+  graph[e][s] = w
+```
+- BFS_무조건 방문 <-> 일단 PQ에 넣고 방문 X
+
+```py
+#  전체 그래프를 보고 제일 작은 간선부터 뽑자
+# -> 전체 간선정보를 저장한 다음에 가중치로 정렬
+#  가중치로 정렬
+
+#  방문 처리
+#  이 때 싸이클이 발생하면 안된다_ 싸이클여부는 union-find 알고리즘이 활용
+def find_set(x):
+  if parents[x] == x:
+
+def union(x,y):
+  x = find_set(x)
+  y = find_set(y)
+
+  if x == y:
+    return
+V,E = map(int,input().split())
+# 간선 정보들을 모두 저장
+edges = []
+for _ in range(E):
+  s,e,w = map(int,input().split())
+  edges.append([s,e,w])
+edges.sort(key=lambda x;x[2])
+parents = [i for i in range(V)]
+# 대표자 배열 
+
+# 가중치를 기준으로 정렬
+sum_weight = 0
+
+# 간선들을 모두 확인한다
+for s,e,w in edges:
+  # 싸이클이 발생하면 pass
+  # -> 이미 같은 집합에 속해있다면 pass
+  if find_set(s) == find_set(e):
+    continue
+  # 싸이클이 없으면 방문처리
+  cnt += 1
+  union(s,e)
+  sum_weight += W
+  # 이미 방문한 노드도 선택이 되는이유...? 신장노드를 만들기위해
+  # MST완성시점이후 연산을 생략하는 방법_간선의 개수 == V-1
+  if cnt == V-1:
+    break
+
+
+```
+
+## 최단경로(다익스트라)
+- 간선의 가중치가 있는 그래프에서 두 정점사이의 경로들 중에 간선의 가중치의 합이 최소인 경로_ 전체를 보는게 아님
+- 하나의 시작 정점에서 끝 정점까지의 최단경로
+  - 다익스트라:음의 가중치 허용 x
+    - 시작정점에서 거리(누적거리)가 최소인 정점을 선택
+    - PRIM과 비슷, 누적거리라는 차이
+  - 벨만포드:음의 가중치 허용
+  - 플로이드 워샬
+  
+```py
+from heapq import heappush, heappop
+INF = int(1e9)
+V,E = map(int,input().split())
+start = 0 # 시작 노드 번호
+
+# 인접 리스트
+graph = [[] for _ in range(V)]
+# 누적 거리를 저장할 변수
+distance = [INF]* V
+# 간선 정보 저장
+for _ in range(E):
+  s,e,w = map(int,input().split())
+  graph[s].append([w,e])
+
+def dijkstra(start):
+  pq = []
+  # 시작점의 weight, node 번호를 한 번에 저장
+  heappush(pq, (0,start))
+  # 시작노드 초기화
+  distance[start] = 0
+  while pq:
+    # 최단거리노드에 대한 정보
+    dist,now = heappop(pq)
+    # pq의 특성때문에 더 긴거리가 미리 저장되어 있음
+    #  now가 이미 처리된 노드라면 pass
+    if distance[now] < dist:
+      continue
+    # now에서 인접한 다른 노드 확인
+    for to in graph[now]:
+      next_dist = to[0]
+      next_node = to[1]
+
+      # 누적거리계산
+      new_dist = dist + next_dist
+
+      # 이미 더 짧은 거리로 간 경우 pass
+      if new_dist >= distance[next_node]:
+        continue
+      distance[next_node] = new_dist
+      # 누적거리를 최단거리로 갱신
+      heappush(pq,(new_dist,next_node)) #next_node의 인접노드들을 pq에 추가
+
+
+```
