@@ -14,8 +14,4 @@ for _ in range(N):
     else:
         heappush(heap,-b)
     # 그냥 0 다 받아도 괜찮았네
-    # if a == 0:
-    #     if not heap:
-    #         print(0)
-    #     else:
-    # heappush(heap,int(input()))
+    
