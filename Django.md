@@ -167,3 +167,56 @@ class Article(models.Model)
 
 1. 라이브러리나 프레임워크
 2. 시맨틱 태그_의미가 있는 태그, 검색엔진 최적화, 가독성, 유지보수_를 사용할 지 대략적인 그림
+
+# ORM
+- admin에서 진행했었음
+- ORM: 객체지향 프로그래밍 언어를 사용하여 호환되지않는 유형의 시스템간에 데이터를 변환하는 기술._서로 다른 언어
+- querySet api: ORM에서 데이터를 검색,필터링,정렬 및 그룹화 하는 데 사용하는 도구
+  - API를 사용하여 SQL이 아닌 Python코드로 데이터 처리
+  - Article_(model class).objects(manager_는 안바뀜).all()(queryset api)
+  - query set: 데이터 베이스에게서 전달받은 객체목록, 순회 가능. Django ORM을 통해
+    - 만들어진 자료형. 단일한 객체 반환 시 모델 인스턴스로 반환
+  - 모델클래스와 인스턴스를 이용해 DB에 데이터 저장,조회,수정,삭제하는 것.
+  - Django shell; Django 환경 안에서ㅕ 실행되는 python shell.
+  
+## CRUD
+
+- 데이터 객체를 만드는 3가지 방법
+    - 인스턴스 변수를 추가
+    - save() 메서드(그 전 migrate)
+  - 
+  - id <-> pk
+- 조회 메서드
+  - all()
+  - filter()
+  - get(): 찾을 수 없거나 둘 이상의 객체를 찾으면 예외 발생. 고유성을 보장하는 조회에서 사용_pk
+- 수정
+  - 조회 후 값 재설정
+- 삭제
+  - 조회 후 delete 메서드 호출
+  - 삭제한 id값 재사용하지 않음
+
+## field lookups
+- 특정한 레코드에 대한 조건을 설정하는 방법
+- 디테일한 조건
+
+QuerySetApi
+MakingQueries
+
+## ORM with View
+- 전체게시글 조화
+- create 로직을 구현하기위해 필요한 view함수의 개수는? 2개
+  - throw, catch _ new, create
+
+## HTTP request method
+- 데이터에 어떤 요청을 원하는지를 나타내는 것
+- GET:특정 리소스를 조회하는 요청. URL에 넣어서 보내짐
+- POST:특정 리소스에 변경을 요구하는 요청(DB에 직접적인 변화). HTTP body에 담겨 보내짐
+- HTTP response status code ex) 404, 403
+  - CSRF: 사이트 간 요청 위조. 자신의 의지와 무관하게 공격
+  - CSRF Token 내가 만든 페이지라는 인증서 같은 토큰
+  - DB에 조작을 가하는 요청이기 때문에 POST는 Token확인
+  - post 요청은 redirect_어딘가로 보내버림 == 사용자가 GET요청을 한번 더 보내도록 해야한다
+
+Delete
+Update 함수 2개
