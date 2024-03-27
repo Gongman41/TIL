@@ -220,3 +220,17 @@ MakingQueries
 
 Delete
 Update 함수 2개
+
+## HTML 'form'
+- 유효한 데이터인지 확인 필요.
+  - 유효성 검사
+- django Form: 사용자 입력데이터를 수집하고 처리 및 유효성 검사를 수행하기 위한 도구.
+  - 유효성 검사를 단순화하고 자동화 할 수 있는 기능을 제공
+  - forms는 css만 대체, 유효성은 create쪽에서
+
+- widget: input의 표현을 바꿈
+
+- django ModelForm: 사용자 입력데이터를 db에 저장해야 할때.
+<-> Form:저장하지 않을때_로그인<->회원가입
+
+new, create view: 생성 담당, (new)GET-(create)POST 차이

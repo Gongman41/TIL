@@ -2,6 +2,16 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_hw_6_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_hw_6_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_ws_6_1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_ws_6_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_ws_6_3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_ws_6_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_ws_6_5" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_ws_6_a" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_ws_6_b" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_ws_6_c" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/django/django_hw_1_2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/django/django_hw_1_4" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/django/django_ws_1_1" vcs="Git" />
