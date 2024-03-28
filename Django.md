@@ -234,3 +234,28 @@ Update 함수 2개
 <-> Form:저장하지 않을때_로그인<->회원가입
 
 new, create view: 생성 담당, (new)GET-(create)POST 차이
+
+## Static files
+- 서버 측에서 변경되지 않고 고정적으로 제공되는 파일(이미지,js,css파일)
+- 웹서버의 기본동작: 특정 위치(URL)에 있는 자원을 요청, 응답
+  - 정적파일도 제공을 위해서는 경로(URL)가 필요
+- static file 제공하기
+  - templates랑 비슷
+  - 기본경로: 장고가 약속한 경로.
+    - STATILC_URL: 기본 경로 및 추가 경로를 참조하기 위한 URL
+      - URL + STATIC_URL + 정적파일 경로
+  - 추가경로: STATICFILES_DIRS에 문자열 값으로 추가 경로 설정
+- load는 extends 아래. load는 상속 안됨.
+
+## Media Files
+- ImageField(): 이미지 업로드에 사용하는 모델필드_ 부모가 캐릭터 필드
+  - 이미지 객체가 직접 저장되는 것이 아닌 이미지파일의 경로가 문자열로 DB에 저장
+  - settings.py에 MEDIA_ROOT,MEDIA_URL 설정
+  - 세팅한 MEDIA_ROOT(실제 미디어 파일들이 위치하는 디렉토리의 절대경로),MEDIA_URL(STATIC_URL과 동일한 역할)에 URL 지정
+  - form쪽에 enctype 설정 필요, view함수도 FILES
+  - 파일 경로만 저장
+
+- 업로드 이미지 제공
+  - 같은 이름의 파일 업로드 시 랜덤 문자열 추가해주ㅠㅁ
+- 업로드 이미지 수정
+  - 수정해도 파일 삭제 x. 필요하면 라이브러리 사용
