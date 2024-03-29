@@ -259,3 +259,47 @@ new, create view: 생성 담당, (new)GET-(create)POST 차이
   - 같은 이름의 파일 업로드 시 랜덤 문자열 추가해주ㅠㅁ
 - 업로드 이미지 수정
   - 수정해도 파일 삭제 x. 필요하면 라이브러리 사용
+
+# 인증시스템
+## Cookie & Session
+- 서버로부터 페이지를 받았을 때 계속 연결되어있는 상태 x
+- HTTP
+  - 비연결지향: 서버는 요청에 대한 응답을 보낸 후 연결을 끊음
+  - 무상태: 상태라는 게 없음_로그인 상태 유지 불가, 장바구니 상품 유지 불가
+- 쿠키: 서버가 사용자 웹브라우저에 전송하는 작은 데이터 조각. 웹페이지랑 같이 줌
+  - 사용자 인증, 추적, 상태유지등에 사용되는 데이터 저장 방법
+  - 같은 서버에 다른 페이지로 재 요청마다 저장해놨던 쿠키를 함께 전송
+  - 브라우저는 쿠키를 Key-Value 데이터 형식으로 저장
+  - 두 요청이 동일한 브라우저에서 들어왔는지 아닌지를 판단할 때, 상태 판단 시 주로 사용.
+  - 세션관리, 개인화, 트래킹 (시크릿모드는 개인화,트래킹 방지)
+    - 세션: 서버 측에서 생성되어 클라이언트와 서버간의 상태를 유지. 상태정보를 저장하는 데이터 저장방식
+  - 작동 원리
+    - 클라이언트가 로그인을 하면 서버가 session 데이터 생성 후 저장(기한 설정 가능)
+    - session id 발급
+    - 발급한 session id를 클라이언트에게 응답
+    - 클라이언트는 응답받은 session id를 쿠키에 저장
+    - 클라이언트가 다시 동일한 서버에 접속하면 요청과 함꼐 쿠키를 전달
+    - 쿠키는 요청할 때마다 서버에 함꼐 전송. 서버에서 session id를 확인해 로그인 되어있다는 것을 알도록 함.
+  - 수명
+    - session cookie:현재 세션이 종료되면 삭제, 브라우저 종료와 함께 삭제
+    - persistent cookies: Expires 속성에 지정된 날짜 혹은 Max-Age속성에 지정된 기간이 지나면삭제
+  - django는 database-backed sessions 저장방식이 기본값.
+    - session정보는 DB의 django_session 테이블에 저장 
+    - admin
+## Authentication
+- 사용자가 누구인지 확인하는 것
+
+## Custom User model
+- admin
+- user model 대체하기
+  - 개발자기 직접 수정할 수 없는 문제
+  - 기존의 userclass와 동일한 class를 이름만 바꿔서
+
+## Login & Logout
+- Login: Session을 Create하는 과정
+- AuthenticationForm():로그인 인증에 사용할 데이터를 입력받는 빌트인 form(DB 저장 x) <-> model-form(DB에 저장)
+- Logout: Session을 Delete하는 과정
+  - 현재 요청에 대한 Session data를 db에서 삭제. 클라이언트의 쿠키에서도 Session id를 삭제
+- abstact base classes
+  - 몇 가지 공통정보를 여러 다른 모델에 넣을 떄 사용하는 클래스
+  - 다른 모델의 기본 클래스로 사용되는 경우 해당 필드가 하위 클래스의 필드에 추가돔;

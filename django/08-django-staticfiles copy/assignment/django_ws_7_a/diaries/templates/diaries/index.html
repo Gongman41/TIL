@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <h1>일기장</h1>
+  <a href="{% url "diaries:create" %}">일기 쓰기</a>
+
+  {% for Diary_model in Diary_model_list %}
+    <p>글 번호: {{ Diary_model.pk }}</p>
+      <p>글 제목: {{ Diary_model.title }}</p>
+    </a>
+    <p>글 내용: {{ Diary_model.content }}</p>
+    <hr>
+  {% endfor %}
+</body>
+{% endblock content %}

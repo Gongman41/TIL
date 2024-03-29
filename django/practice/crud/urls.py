@@ -19,4 +19,7 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # app별로, 본인들의 기능과 연관된 요청을 따로 관리
+    # 처음 aoo 샹송시ㅏ에는 django가 별도로 app.urls를 제공하지 않는다-> 만들어라
+    path('articles/')
 ]

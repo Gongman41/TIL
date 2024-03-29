@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>hello, {{user.username}} 님</h2>
+  {% comment %} auth가 해준거 {% endcomment %}
+  
+  <a href="{% url "accounts:login" %}">LOGIN</a>
+
+  <form action="{% url "accounts:logout" %}" method = POST>
+    {% csrf_token %}
+    <input type="submit" value = "Logout">
+  </form>
+  <h1>전체 유저 목록</h1>
+  <hr>
+  <ul>
+  {% for username in all_usernames%}
+    <li>{{username}}</li>
+  {% endfor %}
+  </ul>
+{% endblock content %}
