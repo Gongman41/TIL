@@ -2,6 +2,26 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/database/01-sql/assignment/DB_hw_1_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/database/01-sql/assignment/DB_hw_1_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/database/01-sql/assignment/DB_ws_1_1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/database/01-sql/assignment/DB_ws_1_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/database/01-sql/assignment/DB_ws_1_3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/database/01-sql/assignment/DB_ws_1_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/database/01-sql/assignment/DB_ws_1_5" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/database/01-sql/assignment/DB_ws_1_a" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/database/01-sql/assignment/DB_ws_1_b" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/database/01-sql/assignment/DB_ws_1_c" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/06-django-orm-with-view/assignment/django_hw_5_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/06-django-orm-with-view/assignment/django_hw_5_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/06-django-orm-with-view/assignment/django_ws_5_1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/06-django-orm-with-view/assignment/django_ws_5_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/06-django-orm-with-view/assignment/django_ws_5_3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/06-django-orm-with-view/assignment/django_ws_5_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/06-django-orm-with-view/assignment/django_ws_5_5" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/06-django-orm-with-view/assignment/django_ws_5_a" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/06-django-orm-with-view/assignment/django_ws_5_b" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/06-django-orm-with-view/assignment/django_ws_5_c" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_hw_6_2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_hw_6_4" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_ws_6_1" vcs="Git" />
@@ -12,6 +32,16 @@
     <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_ws_6_a" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_ws_6_b" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/django/07-django-form/assignment/django_ws_6_c" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/09-02-django-authentication-system/assignment/django_hw_9_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/09-02-django-authentication-system/assignment/django_hw_9_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/09-02-django-authentication-system/assignment/django_ws_9_1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/09-02-django-authentication-system/assignment/django_ws_9_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/09-02-django-authentication-system/assignment/django_ws_9_3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/09-02-django-authentication-system/assignment/django_ws_9_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/09-02-django-authentication-system/assignment/django_ws_9_5" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/09-02-django-authentication-system/assignment/django_ws_9_a" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/09-02-django-authentication-system/assignment/django_ws_9_b" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/django/09-02-django-authentication-system/assignment/django_ws_9_c" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/django/django_hw_1_2" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/django/django_hw_1_4" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/django/django_ws_1_1" vcs="Git" />

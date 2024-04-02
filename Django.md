@@ -1,5 +1,6 @@
 웹페이지 과정
 -  클라이언트가 주소 입력 -> 브라우저는 서버에 html파일 달라고 요청 -> 서버는 데이터베이스에서 파일을 찾아 응답-> 브라우저가 전달받은 html 해석해서 사용자는 메인페이지 보게됨
+
 ## Framework
 - 웹어플리케이션을 빠르게 개발할 수 있도록 도와주는 도구
 - django framework: 파이썬기반의 대표적인 웹 프레임워크
@@ -303,3 +304,15 @@ new, create view: 생성 담당, (new)GET-(create)POST 차이
 - abstact base classes
   - 몇 가지 공통정보를 여러 다른 모델에 넣을 떄 사용하는 클래스
   - 다른 모델의 기본 클래스로 사용되는 경우 해당 필드가 하위 클래스의 필드에 추가돔;
+
+## 회원 가입
+- User 객체를 create하는 과정
+  - UserCreationForm: built-in ModelForm(DB에 저장). 회원 가입 시 사용자 입력데이터를 받음.
+
+## 비번 변경
+- 인증된 사용자의 Session 데이터를 Update 하는 과정
+- PasswordChangeForm(): built-in form
+
+## 로그인 사용자 접근 제한
+-  is_authenticated 속성
+-  login_required 데코레이터

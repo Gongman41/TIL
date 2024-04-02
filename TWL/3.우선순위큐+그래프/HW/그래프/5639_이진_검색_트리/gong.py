@@ -28,7 +28,7 @@ while True:
                 nodes[1][3] = 3
     except EOFError:
         break
-
+print(nodes)
 def last(start):
     if nodes.get(start,0) == 0:
         return

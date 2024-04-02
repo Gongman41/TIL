@@ -1,4 +1,6 @@
 from heapq import heappush, heappop
+# import sys
+# sys.stdin = open('input.txt')
 INF = int(1e9)
 N = int(input())
 M = int(input())
@@ -11,8 +13,8 @@ distance = [INF]* (N+1)
 # 간선 정보 저장
 for _ in range(M):
   s,e,w = map(int,input().split())
-  graph[s].append([e,w])
-
+  graph[s].append([w,e])
+start,end = map(int,input().split())
 def dijkstra(start):
   pq = []
   # 시작점의 weight, node 번호를 한 번에 저장
@@ -40,3 +42,5 @@ def dijkstra(start):
       distance[next_node] = new_dist
       # 누적거리를 최단거리로 갱신
       heappush(pq,(new_dist,next_node)) #next_node의 인접노드들을 pq에 추가
+dijkstra(start)
+print(distance[end])
