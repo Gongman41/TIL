@@ -35,3 +35,10 @@
   - NULL 값이 존재할 경우 오름차순 정렬 시 결과에 NULL이 먼저 출력
 
 ## Filtering data
+
+
+# Many to one relationship
+- N:1관계에서 외래키는 N쪽에 작성
+- ForeignKey: 외래키 모델 필드. 
+- 역참조: 1 -> N . arricle.comment(역참조이름)_set.all()
+- 보통 댓글은 수정할 때 페이지를 따로 이동하지 않기때문에 일단 보류
