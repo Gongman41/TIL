@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{person.username}}님의 프로필 페이지입니다.</h1>
+  <form action="" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="로그인">
+    {% if person.email %}
+    <p>이메일 : {{person.email}}</p>
+    {% else %}
+    <p>아직 이메일을 작성하지 않았습니다.</p>
+    {% endif %}
+  </form>
+{% endblock content %}
