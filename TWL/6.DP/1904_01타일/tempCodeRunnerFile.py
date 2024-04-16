@@ -3,20 +3,12 @@
 # 1 or 00
 
 def fib(n):
-    # if n == 1:
-    #     return 1
-    # elif n==2:
-    #     return 2
-    # else:
-    #     return fib(n-1) + fib(n-2)
-    # 재귀 깊이 문제
-    a, b = 1, 2
-    for _ in range(n - 1):
-        a, b = b, (a + b) % 15746
-    return a
-
-
-    
+    if n == 1:
+        return 1
+    elif n==2:
+        return 2
+    else:
+        return fib(n-1) + fib(n-2)
 
 
 import math
@@ -24,13 +16,12 @@ N = int(input())
 
 
 # N이 1 또는 2일 때는 예외 처리
-# if N == 1:
-#     print(1)
-# elif N == 2:
-#     print(2)
-# else:
-    
-print(fib(N))
+if N == 1:
+    print(1)
+elif N == 2:
+    print(2)
+else:
+    print(fib(N))
     # count = 1
     # cur = N // 2  
     
