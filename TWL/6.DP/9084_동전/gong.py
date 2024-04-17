@@ -19,4 +19,5 @@ for tc in range(1,T+1):
             if money >= coin: # 금액이 동전의 가치보다 크면
                 dp[money] += dp[money-coin] # 해당 dp는 금액 - 동전에 해당하는 dp합
     print(dp[M])
+    # 이거 테이블 만드는 법 익숙해져야됨
 

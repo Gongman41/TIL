@@ -3,9 +3,10 @@ tem = list(map(int,input().split()))
 curry = [1]*N
 
 for i in range(1, N):
-        for j in range(i):
-            if tem[i] > tem[j]:
-                curry[i] = max(curry[i], curry[j] + 1)
+    for j in range(i):
+        if tem[i] > tem[j]:
+            curry[i] = max(curry[i], curry[j] + 1)
+            # 지금 있는 곳까지 크기비교 갱신
 
 print(max(curry))
 # cur = tem[0]

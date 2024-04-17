@@ -34,6 +34,7 @@
 #                     cnt+=1
 # # 힌반 간 곳 2번으로 체크해서 중복으로 안하도록
 # # 시간 줄일려면 실외부터 탐색하는게 맞다/
+# # 시간 초과 발생
             
 # print(cnt)
         
@@ -42,7 +43,7 @@
 
 import sys
 sys.setrecursionlimit(10**6)
-input = sys.stdin.readline
+input = sys.stdin.readline()
 
 n = int(input())
 

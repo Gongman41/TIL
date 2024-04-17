@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // while
+    let i = 0
+    while (i < 6) {
+      consol.log(i)
+      i += 1
+    }
+
+    // for
+    for (let i = 0; i < 6; i ++) {
+      console.log(i)
+    }
+
+
+    // for...in
+    const object = {
+      a: 'apple',
+      b: 'banana'
+    }
+
+    for (const property in object) {
+      console.log(property)
+      console.log(object[property])
+      console.log(object.property)
+      
+    }
+    //재할당 아님?
+
+
+
+
+    // for...of
+    const numbers = [0, 1, 2, 3]
+
+    const myStr = 'apple'
+
+    for (const number of numbers) {
+      condole.log(number)
+    }
+
+    for (const char of myStr) {
+      console.log(char)
+    }
+
+
+
+    // for...in 과 for...of 의 차이
+    const arr = ['a', 'b', 'c']
+
+  </script>
+</body>
+
+</html>
