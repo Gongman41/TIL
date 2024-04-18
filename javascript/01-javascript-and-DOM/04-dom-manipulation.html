@@ -14,6 +14,14 @@
     const h1Tag = document.createAttribute('h1')
     hqTag.textContent = '제목'
     console.log(h1)
+
+    // 추가
+    const divTag = document.querySelector('div')
+    divTag.appendchild(h1tag)
+    console.log(divTag)
+
+    //삭제
+    divTag.removeChild(h1Tag)
   </script>
 </body>
 

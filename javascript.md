@@ -100,3 +100,125 @@
   - 피연산자가 NaN
   - 정의할 수 없느 ㄴ계산식
   - 문자열을 포함하면서 덧셈이 아닌 계산식
+  
+## Reference Type
+- 함수: 참조 자료형(가변, 주소가 복사), 모든 함수는 function object
+  - 종류
+    - objects
+    - Array
+    - Function
+  - 정의
+    - function name ([param[param...]]) {
+      statements
+      return value
+      }
+      리턴 없으면 undefined
+    - 선언식은 위
+    - 표현식(익명함수 사용가능, 사용 권장)
+      - const funcName = function (){
+        }
+      - 사용하는데는 차이 없음
+      - 호이스팅이 되지않음_함수 정의전에 사용 불가
+  - 매개 변수
+    - 기본 함수 매개변수
+      - 전달하는 인자가 없거나 undefined가 전달될 경우 이름 붙은 매개변수를 기본값으로 초기화
+    - 나머지 매개변수
+      - 임의의 수의 인자(가변인자)를 배열로 허용하여 가변인자를 나타내는 방법
+      - const myFunc = function(param1,param2,...restParams)
+      - 없으면 빈 비열로 묶임
+      - 함수정의에서 마지막에 한번만 작성 가능.
+      - 매개변수의 개수와 인자 개수가 불일치할 때 누락된 인자 undefined로 할당
+        - 초과된 인자는 사용하지 않음
+    - spread syntax(전개구문): '...' 배열이나 문자열과 같이 반복가능한 항목을 펼치는 것
+      - 전개 대상에 따라 역할이 다름
+      - 함수와의 사용
+        - 함수 호출 시 인자 확장_언패킹 느낌
+        - 나머지 매개변수(압축)
+  - 화살표 함수 표현식
+    - const arrow = name => 'hello, ${name}'
+    - function 키워드 제거 후 매개변수와 중괄호 사이에 화살표 작성
+    - 매개변수가 하나뿐이라면 매개변수의 소괄호 제거 가능(그냥 생략 안하는 거 추천)
+    - 본문의 표현식이 한 줄이라면 {} 와 return 제거가능
+    - 심화
+      - 인자가 없으면 () or _ 로 표시 가능
+      - 객체 리턴 시 return 명시적으로 작성
+        - 리턴 안쓸거면 객체를 소괄호로 감싸
+- 객체: 키로 구분된 데이터 집합을 저장하는 자료형
+  - 구조 및 속성
+    - 중괄호를 이용해 작성
+    - 중괄호 안에는 키 밸류쌍으로 구성된 속성을 여러개 작성 가능
+    - key는 문자형만 허용( 공백없으면 따옴표 생략가능)
+    - value는 모든 자료형 허용
+    - value자리에 함수있으면 메서드
+  - 속성 참조
+    - . , [] 로 객체 요소 접근
+    - key 이름에 띄어쓰기같은 구분자 있으면 대괄호 접근만 가능
+    - 속성 추가시 user.address = 'korea' 이런 식. 이미 있으면 수정
+    - 삭제시 delete user.name
+  - in 연산자: 속성이 객체에 존재하는지 여부를 확인(key를 확인)
+  
+  - 객체와 함수
+    - Method: 객체의 속성으로 존재하는 함수
+    - object.method() 방식으로 호출
+    - 메서드는 객체를 '행동'할 수 있게 함
+    - this: 함수나 메서드를 호출한 객체를 가리키는 키워드
+      - 단순 호출: 전역 객체
+      - 메서드 호출: 메서드를 호출한 객체
+      - 호출하는 방법이 중요
+      - self랑은 다르다. 무조건 자기자신이지는 않음
+      - forEach의 인자같이 단순호출되면 전역
+        - 화살표 함수는 자신만의 this를 가지지 않기 때문에 외부함수에서의 thist 값을 가져옴
+      - 호출 시 암묵적으로 전달받음
+      - 함수 호출 시 값이 할당(동적 할당) <-> 파이썬의 self, 자바의 this는 선언 시 값이 정해짐 
+        - 여러 객체에서 사용가능, but 실수 발생 가능
+  - 추가 객체 문법
+    - 단축 속성: 키 이름과 값으로 쓰이는 변수의 이름이 같은 경우
+      - name: name -> name
+    - 단축 메서드: ': function' 생략가능
+    - 계산된 속성: 키가 대괄호로 둘러싸여있는 속성_ 고정된 값이 아닌 변수값 사용가능
+    - 구조 분해 할당: 함수의 매개변수로 활용가능, import 시에도
+    - 전개구문 with object: 객체 복사_ 얕은 복사
+    - 유용한 객체 메서드
+      - object.keys()
+      - object.values()
+    - optional chaining: 속성이 없는 중첩객체를 에러없이 접근하는 방법 
+      - 참조 대상이 null 또느 ㄴundefined라면 에러가 발생하는 것 대신 평가를 멈추고 undefined 반환 (?.)
+      - 안쓰면 && 사용해서 처리
+        - 편리한 탐색, 간단한 표현식
+        - 존재하지 않아도 괜찮은 대상에만 사용
+        - optional chaining 앞의 변수는 반드시 선언
+  - JSON
+    - 객체처럼 생겼지만 문자열
+    - 변환하는 과정 필요_ 자바스크립트에서는 객체로.
+```javascript
+// Object -> JSON
+    const objToJson = JSON.stringify(jsObject)
+    console.log(objToJson)  // {"coffee":"Americano","iceCream":"Cookie and cream"}
+    console.log(typeof objToJson)  // string
+
+    // JSON -> Object
+    const jsonToObj = JSON.parse(objToJson)
+    console.log(jsonToObj)  // { coffee: 'Americano', iceCream: 'Cookie and cream' }
+    console.log(typeof jsonToObj)  // object
+```
+  - new: 함수로 생성자 만든다음 앞에 new를 붙여 변수에 할당
+- 배열
+  - Array: 순서가 있는 데이터 집합을 저장하는 자료구조
+    - length 속성을 이용해 배열에 담긴 요소가 몇개인지 알 수 있음
+    - 대괄호를 이용해 작성
+    - 메서드
+      - push, pop_반환 후 제거
+      - unshift,shift: 앞쪽 추가, 제거 후 반환
+    - array helper method
+      - 배열의 각 요소를 순회, 각 요소에 대해 함수_콜백함수를 호출
+      - 메서드 호출 시 인자로 함수(콜백함수)를 받는 것이 특징
+        - 콜백함수: 다른 함수에 인자로 전달되는 함수
+          - 외부함수 내에서 호출되어 일종의 루틴이나 특정 작업을 진행
+      - forEach : 배열 내의 모든 요소 각각에 대해 함수를 호출,반환값 없음 
+        - item_필수요소, index_처리할 배열요소 인덱스(선택), array(선택인자)
+        - 반환값: undefined
+        - 화살표 함수 표시
+        - 이게 제일 좋음
+      - map: 배열 내의 모든 요소 각각에 대해 함수를 호출, foreach+ 새로운 배열 
+      - some, every
+      - 반환,ewru

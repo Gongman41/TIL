@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function createPerson(name, age, city) {
+      // greeting 메서드는 화살표 함수로 작성합니다.
+      const greeting = () => console.log(`${name}의 나이는 ${age}입니다.`);
+      
+      // city 값의 존재 여부에 따라 livesIn{city} 속성을 true 또는 false로 설정합니다.
+      const livesInCity = city ? true : false;
+
+      // 반환할 객체를 생성하여 각 요구사항에 맞게 속성을 설정합니다.
+      return {
+        name, // name 속성은 단축 구문으로 할당합니다.
+        age, // age 속성은 단축 구문으로 할당합니다.
+        [`livesIn${city}`]: livesInCity, // 계산된 속성 방식을 사용하여 livesIn{city} 속성을 설정합니다.
+        greeting // greeting 메서드를 할당합니다.
+      };
+    }
+
+    const person1 = createPerson('홍길동', 30, '옥천');
+    console.log(person1); // {name: '홍길동', age: 30, livesIn옥천: true, greeting: ƒ}
+    person1.greeting(); // 홍길동의 나이는 30입니다.
+  </script>
+</body>
+</html>

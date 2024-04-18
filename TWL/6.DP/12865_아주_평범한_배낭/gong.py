@@ -24,11 +24,19 @@ d = [[0]*(K+1) for _ in range(N+1)]
 
 
 
-for item in item_lst:
-    w,v = item
-    for i in range(K,w-1,-1):
-        d[i] = max(d[i],d[i-w]+v)
-print(d[-1])
+for i in range(1, N+1):
+    for j in range(1, K+1):
+        w = item_lst[i][0]
+        v = item_lst[i][1]
+
+        if j < w:
+            d[i][j] = d[i-1][j]
+        else:
+            d[i][j] = max(d[i-1][j], d[i-1][j-w]+v)
+            # 지금 이 물건이 없을 때의 무게의 가치와 이 물건을 더했을 때의 가치
+
+print(d[N][K])
+                
                 
             
     
