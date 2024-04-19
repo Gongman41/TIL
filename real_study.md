@@ -30,3 +30,30 @@
   - json.loads():JSON형식의 문자열을 파싱하여 딕셔너리로 변경
   - 추가공부 과제
     - data[' '] <-> data.get('weather')
+
+
+
+- 파일분리, 포함되는 파일 '_ㅇㅁ눰ㅁㅇ.html' 
+- __init__ 모듈로 인식하도록
+- runserver 는 개발서버를 실행
+- 배포용(deploy)_클라우드 서비스_리눅스_네트워크
+  - pythonAnywhere
+  - asgi
+  - wsgi
+- settings.py/DATABASES 에서 데이터베이스 지정.
+- URI에는 데이터 위치
+- 행동은 http method
+- API server_데이터 조작만 <-> return render 화면
+- django에서 실제 DB 요청은 데이터를 실제로 사용을 할때(템플릿)
+  - 지연로딩.ORM 사용 시. 실제 데이터가 필요할 떄 가져오기. 중복된 sql문 방지 + 효율적 관리
+  - N + 1 problem
+  - 해결_ 즉시로딩: annotate ,select_related(정참조시에 발생하는 중복쿼리 해결), prefetch_related(역참조시에 발생하는 중복쿼리 해결)
+- get_object_or_404: 에러 발생하지 않고 404페이지
+- ModelForm(정의해놓은 필드만 입력받고 싶어)_ModelSerailizer <-> Form(내가 원하는 필드가 추가로 있어)_Serailizer
+- FK 입력 x
+  - 사용자가 사용할 떄 이상함
+  - 다른 테이블의 데이터를 참조. 입력 받을 시 없는 데이터 받을 수도
+- django seed_ 테스트데이터 만들어주는 라이브러리
+  - psycopg2 도 설치
+  - settings.py에 넣어주고
+- django-debug-toolbar
