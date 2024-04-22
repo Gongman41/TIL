@@ -222,3 +222,183 @@
       - map: 배열 내의 모든 요소 각각에 대해 함수를 호출, foreach+ 새로운 배열 
       - some, every
       - 반환,ewru
+
+# Controlling event
+## 이벤트
+- 웹에서의 모든 동작은 이벤트 발생과 함께 한다
+- event object: Dom에서 이벤트가 발생했을 때 생성되는 객체
+  - mouse, input,keyboard...
+  - Dom요소는 event를 받고 받은 event를 처리(event handler)할 수 있음
+- event handler: 이벤트가 발생했을 때 실행되는 함수
+  - .addEventListener(): 대표적인 이벤트 핸들러 중 하나(콜백함수_인자로도 함수를 받음)
+  - 특정 이벤트를 DOM요소가 수신할 때마다 콜백함수를 호출
+  - EventTarget(Dom요소).addEventListener(type(수신할 이벤트),handler(콜백함수))
+    - 대상에 특정Event가 발생하면 지정한 이벤트를 받아 할일을 등록한다
+    - type : 수신할 이벤트 이름, 문자열로 작성\
+    - handler: 발생할 이벤트 객체를 수신하는 콜백함수, 발생한 event object를 유일한 매개변수로 받음
+- ex) 버튼 클릭 시 / 버튼 요소 출력하기
+```js
+// 버튼 선택
+const btn = document.querySelector('#btn')
+// 콜백함수_반환값 없음. event 객체를 유일한 매개변수로
+const detectClick = function (event )  {
+  console.log(event)
+  console.log(this)
+  // this = btn. 위 아래는 사실 같은 코드
+  console.log(event.currentTarget)
+// 속성 개많음_PointerEvent
+}
+// btn.addEventListener('click',function(event) {
+//   console.log(event)
+//   console.log(this)
+//   // this = btn
+//   console.log(event.currentTarget)
+// // 속성 개많음_PointerEvent
+// })
+// 버튼에 이벤트 핸들러를 부착
+btn.addEventListener('click',detectClick)
+```
+- 내부의 this값은 대상요소(event객체의 currentTarget 속성값과 동일)
+- 버블링: 중첩된 구조에 각각 이벤트 핸들러가 있을 때. 가장 내부 선택시 차례대로 출력_ 부모요소의 핸들러가 동작, 최상단 조상요소까지.
+  - 하위요소에 연결 안되어있어도 버블링되서 연결되어있는 곳에서 핸들러
+  - 이벤트가 정확히 어디서 발생했는 지 접근할 수 있는 방법
+    - event.currentTarget: 현재요소, 이벤트 핸들러가 연결된 요소만을 참조, this와 같음, 불변
+    - event.target: 이벤트가 발생한 가장 안쪽의 요소를 참조, 실제 이벤트가 시작된 요소, 버블링이 진행되어도 변하지 않음, 가변
+  - 버블링이 필요한 이유: 각자 다른 동작 수행하는 버튼 짱많으면 target,currentTarget으로 해야 하나하나 설정 안해도 됨
+- 캡쳐링: 이벤트가 하위요소로 전파되는 단계(버블링과 반대)
+
+- 버튼 클릭 시 숫자 1씩 증가해서 출력
+```js
+// 3.초기값 선언
+let count = 0
+// 1.버튼 선택
+const btn = document.querySelector('#btn')
+// 2. 함수 작성
+const clickHandler = function() {
+  // 3.1 초기값 1 증가
+  count += 1
+  // 2.1 카운트할 요소 선택
+  const spanTag = document.querySelector('#counter')
+  // 2.2 카운트할 요소 안에 숫자를 선택_그냥 숫자가 할당됨. 
+  // let counterNumber = spanTag.textContent
+  
+  // 3.2 증가된 숫자를 counterNumber에 재할당
+  // counterNumber = count
+  spanTag.textCount = count
+}
+// 4. 이벤트 핸들러 부착
+btn.addEventListener('click',clickHandler)
+```
+- 사용자의 입력값을 실시간으로 출력
+```js
+// 1. input 태그 선택
+const inputTag = document.querySelector('#text-input')
+// 3.2 p 태그 선택
+const pTag = document.querySelector('p')
+// 2. 콜백함수
+const inputHandler = function(event) {
+  // 3.1 작성하는 데이터가 어디에 누적되고 있는지 찾기
+  // console.log(event)
+  // console.log(this.value)
+  // console.log(event.currentTarget.value)
+  // 3.3 사용자 입력 데이트럴 p 태그의 컨텐츠로 저장
+  pTag.textContent = event.currentTarget.value
+  // 누적시키거나 한방에 접근하거나
+} 
+// 4. 선택한 input 태그에 이벤트 핸들러 부착
+inputTag.addEventListener('input',inputHandler)
+```
+  - currentTarget 주의사항: 버블링 순서때문에 console에서 null값
+- + '+'버튼을 클릭하면 출력한 값의 css스타일을 변경하기
+
+
+```js
+// 1. input 태그 선택
+const inputTag = document.querySelector('#text-input')
+const h1Tag = document.querySelector('h1')
+const btn = document.querySelector('#btn')
+// 2. 콜백함수
+const inputHandler = function(event) {
+
+  h1Tag.textContent = event.currentTarget.value
+} 
+
+const clickHandler = function() {
+  // add 방법
+  // h1Tag.classList.add('blue')
+  // toggle 방법
+  h1Tag.classList.toggle('blue')
+// if 방법
+  // if (h1Tag.classList.value){
+  //   h1Tag.classList.remove('blue')
+  // } else {
+  //   h1Tag/classList.add('blue')
+  // }
+
+}
+
+// 3. 선택한 input 태그에 이벤트 핸들러 부착
+inputTag.addEventListener('input',inputHandler)
+btn.addEventListener('click',clickHandler)
+```
+
+
+- todo 프로그램 구현
+```js
+const inputTag = document.querySelector('.input-text')
+// 클래스
+const btn = document.querySelector('#btn')
+const ulTag = document.querySelector('ul')
+
+const addTodo = function (event) {
+  // event.currentTarget = btn
+  const inputData = inputTag.value
+  if (inputData.trim()) {
+    // trim은 공백제거 메서드
+  // li 태그 생성
+  const liTag = document.createElement('li')
+  liTag.textContent = inputData
+  ulTag.appendChild(liTag)
+  // todo 추가 후 input의 입력 데이터는 초기화
+  inputTag.value = ''
+  } else {
+    alert('할일을 입력하세요.')
+    // 빈 문자열 입력 방지. 따로 경고창이 뜸
+  }
+}
+
+btn.addEventListener('click',addTodo)
+```
+- 로또 번호 생성기 구현
+```html
+
+<script src="
+https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js
+">
+// 자주쓰는 라이브러리 lodash
+// const h1Tag = document.querySelector('h1')
+const btn = document.querySelector('#btn')
+const divTag = document.querySelector('div')
+
+const getLottery = function (event) {
+  const numbers = _.range(1,46)
+  const sixNumbers = _.sampleSize(numbers,6)
+
+  const ulTag = document.createElement('ul')
+
+  sixNumbers.forEach(number) => {
+    const liTag = document.createElement('ul')
+    liTag.textContent = number
+    ulTag.appendChild(liTag)
+  }
+  divTag.appendChild(ulTag)
+}
+btn.addEventListener('click',getLottery)
+</script>
+
+```
+
+- 이벤트 기본동작 취소
+  - .preventDefault()
+    - form 제출이벤트 취소 - 페이지 새로고침 막음
+    - copy 이벤트 취소
