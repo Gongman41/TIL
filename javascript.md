@@ -402,3 +402,182 @@ btn.addEventListener('click',getLottery)
   - .preventDefault()
     - form 제출이벤트 취소 - 페이지 새로고침 막음
     - copy 이벤트 취소
+
+# 비동기
+- 동기: 프로그램의 실행흐름이 순차적으로 실행_하나의 작업 완료 후 다음 작업 실행  
+- 직렬 vs 병렬(진동벨)
+- 비동기: 병렬적 수행. 응답이 빨리 오는 작업부터 처리
+
+- Thread: 작업을 처리할 때 실제로 작업을 수행하는 주체. 멀티쓰레드_ 업무를 수행할 수 있는 주체가 여러 개
+  - javascript 는 single thread_하나의 작업만 가능
+  - 비동기와 관련된 작업: 브라우저, Node 와 같은 환경에서 처리
+  - 런타임의 시각적 표현
+    - call stack(LIFO): javascript의 영역, single thread 작업처리
+      - 콜백함수: 다시 call stack으로 돌아오기때문에
+    - Web Api: 브라우저에서 제공, 바로 처리가 안되면 이쪽으로 이동, 완료 시 Task Queue
+    - Event Loop: call stack과 task queue 보고있다가 call stack 비어있으면 대기실에서 꺼내서 넣음. 
+    - Task Queue(FIFO): 대기실
+-  Ajax: XMLGttpRequest 기술을 사용해 복잡하고 동적인 웹페이지를 구성하는 프로그래밍 방식
+   -  비동기적인 웹어플리케이션 기술
+   -  페이지 전체를 새로고침하지 않고도 동적으로 데이터를 불러와 화면을 갱신가능
+   -  페이지의 일부  DOM만 업데이트. 비동기적 작업 가능
+   - XMLHttpRequest(XHR): 새로고침없이 데이터 가져오기
+     - 기존에는 html파일을 받음. 유사한 내용이 있을 경우 대역폭 낭비
+     - XHR 객체 생성 및 요청 , json 파일을 받음
+     - javascript 가 보냄.(파이썬의 request)
+   - 이벤트 헨들러는 비동기 프로그래밍의 한 형태
+- Axios : HTTP 클라이언트 라이브러리 
+  - XHR 객체 생성, Promise기반의 비동기 요청을 처리
+  - Axios를 활용해 XHR 객체 생성 및 요청 - Ajax 요청 처리 -> 응답데이터 생성 -> JSON 데이터 응답 -> Axios가 Promise 객체로 응답데이터를 제공 -> 응답 데이터를 활용해 DOM 조작
+  - requests 동기 Axios 비동기
+  - Axios가 JSON 파일을 promise객체로 변환해서 가져옴
+```html
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js">
+  const URL = 'https://api.thecatapi.com/v1/images/search'
+  // const promiseObj = axios({
+  //   method:'get',
+  //   url: URL
+  // })
+  // console.log(promiseObj)
+  // // response = request.get(URL)
+  // promiseObj.then((response) => {
+  //   console.log(response)
+  //   console.log(response.data)
+  //   console.log(response.data[0].url)
+  // })
+
+  axios({
+    method:'get',
+    url: URL
+  })
+    .then((response) => {
+      console.log(response)
+      console.log(response.data)
+      return response.data
+      console.log(response.data[0].url)
+    })
+    .then ...
+
+
+</script>
+
+```
+  - then:요청한 작업이 성공하면 callback 실행. callback은 이전작업의 성공 결과를 인자로 전달받음
+  - catch: then()이 하나라도 실패하면 callback 실행 (남은 then은 중단), 이전작업의 실패 객체를 인자로 전달받음.
+```html
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const URL = 'https://api.thecatapi.com/v1/images/search'
+
+    Axios({
+      method:'get',
+      url:URL
+    })
+      .then((response)=>{
+        console.log(response)
+        console.log(response.data)
+      })
+      .catch((error)=> {
+        console.log(error)
+      })
+  </script>
+```
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const URL = 'https://api.thecatapi.com/v1/images/search'
+    const btn = document.querySelector('button')
+
+    const getCats = function () {
+      // cat api로 요청을 보내서 응답을 받은 후
+      // 응답데이터에서 이미지 주소를 추출하여
+      // HTML img 태그를 생성 후 src 속성 값에 저장
+      // 완성된 img 태그를 화면에 출력
+      axios({
+        method:'get',
+        url:URL
+      })
+        .then((response) => {
+          console.log(response)
+          const imgURL = response.data[0].url
+          const imgTag = document.createElement('img')
+          imgTag.setAttribute('src',imgURL)
+          document.body.appendChild(imgtag)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+
+    btn.addEventListener('click', getCats)
+  </script>
+```
+
+- Ajax <-> Axios : 비동기 웹개발 기술 통칭 <-> 라이브러리
+
+## callback과 promise
+- 비동기 처리의 단점: 작업이 완료되는 순서에 따라 처리-> 코드의 실행 순서가 불명확
+- 비동기 콜백: 비동기작업을 순차적으로 동작할 수 있게함.
+  - 콜백 지옥: 피라미드같이 작성
+    - 가독성, 유지보수 문제
+- Promise: 순서, 가독성. Axios.
+
+  - then:요청한 작업이 성공하면 callback 실행. callback은 이전작업의 성공 결과를 인자로 전달받음
+  - catch: then()이 하나라도 실패하면 callback 실행 (남은 then은 중단), 이전작업의 실패 객체를 인자로 전달받음.
+```html
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const URL = 'https://api.thecatapi.com/v1/images/search'
+
+    Axios({
+      method:'get',
+      url:URL
+    })
+      .then((response)=>{
+        console.log(response)
+        console.log(response.data)
+      })
+      .catch((error)=> {
+        console.log(error)
+      })
+  </script>
+```
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const URL = 'https://api.thecatapi.com/v1/images/search'
+    const btn = document.querySelector('button')
+
+    const getCats = function () {
+      // cat api로 요청을 보내서 응답을 받은 후
+      // 응답데이터에서 이미지 주소를 추출하여
+      // HTML img 태그를 생성 후 src 속성 값에 저장
+      // 완성된 img 태그를 화면에 출력
+      axios({
+        method:'get',
+        url:URL
+      })
+        .then((response) => {
+          // console.log(response)
+          const imgURL = response.data[0].url
+          return imgURL
+        })
+        .then((imgUrlData)=> {
+          const imgTag = document.createElement('img')
+          imgTag.setAttribute('src',imgUrlData)
+          document.body.appendChild(imgtag)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+
+    btn.addEventListener('click', getCats)
+  </script>
+```
+
+- 콜백함수는 javascript의 Event Loop 가 현재 실행중인 Call stack을 완료하기 이전에는 절대 호출되지 않음.
+- 비동기작업이 성공하거나 실패한 뒤에 then 메서드를 이용하여 추가한 경우에도 호출순서를 보장하며 동작
+- then을 여러번 사용하여 여러개의 callback 함수를 추가할 수 있음. 

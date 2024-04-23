@@ -16,21 +16,32 @@ elif N == 2:
         print(n_lst[0])
     else:
         print('A')
-elif 
 else:
 # 범위는 2번째 3번째 수가 정함. 특히 a
-    a = (n_lst[2]-n_lst[1])/(n_lst[1]-n_lst[0])
-    b = n_lst[1]-a*n_lst[0]
-    result = 0
-    if a%1 != 0:
-        print('B')
-    else:
-
+    if n_lst[1] == n_lst[0]:
+        check =True
         for n in range(1,N):
-            result = a*n_lst[n] + b
-            if n < N-1:
-                if result !=n_lst[n+1]:
-                    print('B')
-                    break
+            if n_lst[0] != n_lst[n]:
+                check = False
+                break
+        if check:
+            print(n_lst[0])
         else:
-            print(int(result))
+            print('B')
+        # 이 포인트 빼먹음
+    else:
+        a = (n_lst[2]-n_lst[1])/(n_lst[1]-n_lst[0])
+        b = n_lst[1]-a*n_lst[0]
+        result = 0
+        if a%1 != 0:
+            print('B')
+        else:
+
+            for n in range(1,N):
+                result = a*n_lst[n] + b
+                if n < N-1:
+                    if result !=n_lst[n+1]:
+                        print('B')
+                        break
+            else:
+                print(int(result))

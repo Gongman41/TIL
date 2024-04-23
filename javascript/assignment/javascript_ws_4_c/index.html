@@ -32,6 +32,42 @@
 
   <script>
     // 아래에 코드 작성
+    const inputTag = document.querySelector('.text-input')
+    const pTag = document.querySelector('p')
+    const warningSpan = document.querySelector('.warning')
+    const colorInput = document.querySelector('.color-input')
+
+    function handleTextInput() {
+      const inputData = inputTag.value
+      const inputLength = inputData.length
+
+      // input 요소에 포커스가 있을 때
+      pTag.classList.add('bg-color')
+      pTag.classList.add('fs-2')
+
+      // 입력 길이가 5를 초과할 때
+      if (inputLength > 5) {
+        warningSpan.style.display = 'inline'
+        pTag.style.display = 'none'
+      } else {
+        warningSpan.style.display = 'none'
+        pTag.style.display = 'block'
+        pTag.textContent = inputData
+      }
+    }
+
+    function handleColorInput() {
+      const colorValue = colorInput.value
+      pTag.style.color = colorValue
+    }
+
+    inputTag.addEventListener('focus', handleTextInput)
+    inputTag.addEventListener('blur', () => {
+      pTag.classList.remove('bg-color')
+      pTag.classList.remove('fs-2')
+    })
+    inputTag.addEventListener('input', handleTextInput)
+    colorInput.addEventListener('input', handleColorInput)
   </script>
 </body>
 

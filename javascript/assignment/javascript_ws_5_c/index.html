@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .photos img {
+      width: 500px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Mars Rover Photos - Step 3</h1>
+  <form class="search-form">
+    <div>
+      <select class="select-rover">
+        <option value="" selected disabled hidden>--- Select Rover name ---</option>
+        <option value="#">Curiosity</option>
+        <option value="#">Opportunity</option>
+        <option value="#">Spirit</option>
+      </select>
+    </div>
+    <label for="input-sol">화성일 : </label>
+    <input type="number" class="input-sol" id="input-sol" min="0" max="4000">
+    <input type="submit" value="Search">
+  </form>
+  <div class="photos"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const API_URL = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos'
+    const API_KEY = ''
+    const photoContainer = document.querySelector('.photos')
+    const searchForm = document.querySelector('.search-form')
+
+    const getMarsPhotos = function (roverName, sol) {
+      photoContainer.innerHTML  = null
+      axios({
+        method: 'get',
+        url: API_URL,
+        params: {
+          sol: sol,
+          api_key: API_KEY,
+          name:roverName
+        },
+      })
+        .then((response) => {
+          const photos = response.data.photos
+          if (photos.length === 0) {
+            photoContainer.textContent = `로버 ${roverName}는 해당 화성 일에 찍은 사진이 없습니다.`
+          } else {
+            // 최대 3장까지만 표시
+            const numPhotos = Math.min(photos.length, 3)
+            for (let i = 0; i < numPhotos; i++) {
+              const photo = photos[i]
+              const imgElement = document.createElement('img')
+              imgElement.src = photo.img_src
+              const pElement = document.createElement('p')
+              pElement.textContent = photo.earth_date
+              photoContainer.appendChild(pElement)
+
+              photoContainer.appendChild(imgElement)
+              const hrElement = document.createElement('hr')
+              photoContainer.appendChild(hrElement)
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+
+    searchForm.addEventListener('submit', function (event) {
+      event.preventDefault()
+      const robotName = document.querySelector('.select-rover').value
+      const solValue = document.querySelector('.input-sol').value
+      getMarsPhotos([solValue,robotName])
+    })
+  </script>
+</body>
+
+</html>

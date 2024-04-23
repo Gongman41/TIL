@@ -32,8 +32,11 @@
     const pTag = document.querySelector('.contents')
 
     function change_text(event) {
-      if (event.target.classList.contains('heading')) {
-        event.target.textContent.toggle('I am hovered!')
+      
+          if (event.type === 'mouseover') {
+        event.target.textContent = 'I am hovered!'
+      } else if (event.type === 'mouseout') {
+        h1Tag.textContent = 'Hover me!'
       }
     }
     function change_color(event) {
@@ -48,6 +51,8 @@
       }
     }
     h1Tag.addEventListener("mouseover",change_text)
+    h1Tag.addEventListener("mouseout",change_text)
+
     h2Tag.addEventListener("dblclick",change_color)
     pTag.addEventListener("wheel",change_random)
   </script>
