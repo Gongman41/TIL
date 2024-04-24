@@ -581,3 +581,85 @@ btn.addEventListener('click',getLottery)
 - 콜백함수는 javascript의 Event Loop 가 현재 실행중인 Call stack을 완료하기 이전에는 절대 호출되지 않음.
 - 비동기작업이 성공하거나 실패한 뒤에 then 메서드를 이용하여 추가한 경우에도 호출순서를 보장하며 동작
 - then을 여러번 사용하여 여러개의 callback 함수를 추가할 수 있음. 
+
+
+
+# Ajax with Django
+- CDN 작성
+- form id 속성 지정 및 선택. action과 method 속성은 삭제
+- form에 이벤트 핸들러 할당, submit 이벤트의 기본 동작 취소
+- axios 요청 작성. user pk , csrftoken 문제
+- form에 data-user-id = "{{person.pk}}" 추가
+  - data-* 속성: 사용자 지정 데이트 특성을 만들어 임의의 데이터를 HTML과 DOM 사이에서 교환할 수 있는 방법. 카멜케이스로 자동 변경
+    - 세미콜론,대문자 x
+- csrf의 값을 가진 input요소를 직접 선택 후 axios에 작성하기
+```js
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+formTag.addEventListener('submit', function(event) {
+  event.preventDefault()
+  const userId = event.currentTarget.dataset.userId
+  // const userId = this.dataset.userId
+  // const userId = formTag.dataset.userId
+  axios({
+    method: 'post',
+    url: '/accounts/${}/follow/',
+    headers: {"X-CSRFToken":csrftoekn,},
+  })
+  .then((response) => {
+    const isFollowed = response.data.is_followed
+    const followBtn = document.querySelector('input[type-submit]')
+    if (isFollowed === true) {
+      followBtn.value == '언팔로우'
+    } else {
+      followBtn.value = '팔로우'
+    }
+    const followingsCountTag = document.querySelector('$followings-count')
+    const followersCountTag = document.querySelector('$followers-count')
+    followingsCountTag.textContent = response.data.followings_count
+    followersCountTag.textContent = response.data.followers_count
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+})
+```
+
+```python
+from djanfo.http JsonResponse
+@login_required
+def follow(request, user_pk):
+    me = request.user
+    you = get_user_model().objects.get(pk=user_pk)
+
+    if me != you:
+        if me in you.followers.all():
+            you.followers.remove(me)
+            is_followed = False
+        else:
+            you.followers.add(me)
+            is_followed =  True
+        context = {
+          'is_followed':is_followed,
+          'followings_count':you.followings.count(),
+          'followers_count':you.followers.count
+        }
+        return JsonResponse(context)
+        # <!-- json응답 클래스. 딕셔너리만 가능 -->
+    return redirect('accounts:profile', you.username)
+
+```
+- 팔로잉 수와 팔로워수 비동기 적용
+```html
+<div>
+    팔로잉 : <span id = "followings-count">{{ person.followings.all|length }}</span> / 
+    팔로워 : <span id = "followers-count">{{ person.followers.all|length }}</span>
+</div>
+```
+## 비동기 좋아요
+- 공통된 부모의 역할을 할 수 있는 부모태그에만 이벤트 핸들러를 부착
+- 모든 좋아요 form 요소를 포함하는 최상위 요소 작성
+- 최상위 요소 선택, 이벤트 핸들러 할당, submit 이벤트 감지_취소
+- form들에서 data-article-id = "{{article.pk}}"
+- const articleId = event.**target**.dataset.articleId
+- 이외는 팔로우와 거의 동일
+- view에서 좋아요 수 보냄. 비동기 처리할때 span태그로 묶고 id가 따로 지정되어있는 값에 이벤트 핸들러 연결. textContent 변경
