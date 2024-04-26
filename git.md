@@ -29,3 +29,15 @@ Merge Conflict
 같은 파일의 같은 부분을 수정한 경우
 그냥 지우고 저장하면 끝
 db gitignore 걸어 놓고 fixture 사용
+
+수정사항 생기면 
+git restore README.md 
+하면 가장 최근에 commit한 시점으로 다시 돌아감. add하기 전 진행
+
+add 하고 난 다음에 파일 상태 되돌리는 법.
+git rm -- cached trash.txt
+ - 최초 커밋조차 없었을 떄
+git restore --staged trash.txt
+
+직전 커밋 수정
+git commit --amend

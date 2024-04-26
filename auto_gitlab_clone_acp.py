@@ -60,6 +60,8 @@ while True:
             lv = hw[-1]
             if hw[:2] == '과제':
                 test = 'hw'
+            elif hw[:1] == '뷰':
+                test = 'ex'
             else:
                 test = 'ws'
             completeurlLst.append(f'{user_dir}\{subject}_{test}_{today}_{lv}\.git')

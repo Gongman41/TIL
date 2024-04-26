@@ -57,3 +57,67 @@
   - psycopg2 도 설치
   - settings.py에 넣어주고
 - django-debug-toolbar
+
+
+
+
+
+settings에 rest_framework
+render, redirect는 페이지 자체를 return
+jsonResponse(django.http),Response(rest_framework.response).
+settings에서 API_KEY 사용법
+전체 프로젝트 디렉토리에 .env 생성. 거기에 API_KEY 변수 작성. .gitignore에 .env 넣어주기.
+settings.py 에 import os , import environ
+```py
+import os
+import environ
+
+env = environ.Env(DEBUG=(bool, True))
+environ.Env.read_env(
+  env_file=os.path.join(BASE_DIR,',env')
+)
+WEATHER_API_KEY = env('API_LEY')
+```
+다른 곳에서 from django.conf import settings 하고 
+api_key = settings.WEATHER_API_KEY 로 받아서 사용
+
+
+seializers.py
+
+```py
+from rest_framework import serializers
+from .model import weather
+# serializers.ModelSerializer 모델필드에 정의된 애들만 변환
+# serializers.Serializer 없어도 추가로 변환
+class WeatherSerialize(serializers.ModelSerializer)
+  class Meta:
+    model = Weather
+    fields = '__all__'
+```
+views.py
+```py
+from .serializers import WeatherSerializer
+# ...
+save_data = {
+  # ...
+  pass
+}
+serializer = WeatherSerializer(data = save_data)
+
+# 유효성 검증, 유효 시 저장, many=True
+if serializer.is_valid(raise_exception=True)
+  serializer.save()
+return JsonResponse({'message':"save okay!"})
+```
+@api_view(["GET"])
+from rest_framework.decorators import api_view
+- api함수 구현 시 붙여줘야됨. 
+- JsonResponse 는 장고꺼라 버그 안나옴
+- Response 일때는 필수/.
+
+```py
+weathers = Weather.objects.filter(temp__gt=(20 + 273.15))
+serializer = WeatherSerializer(weathers,many = True)
+return Response(serializers.data)
+
+```
