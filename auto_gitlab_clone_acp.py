@@ -29,17 +29,18 @@ select = int(input())
 while True:
     if select == 1:
         ## 온라인 실습실의 자료들을 받아온다 => git으로 클론해온다
-        difficulty = [1,2,3,4,5,'a','b','c']
+        difficulty = [1,2,3,4,5]
         urlLst = []
         for test in difficulty:
+            url = f'https://lab.ssafy.com/{user_id}/{subject}_ws_{today}_{test}'
+            urlLst.append(url)
             if test == 2 or test == 4:
                 url = f'https://lab.ssafy.com/{user_id}/{subject}_hw_{today}_{test}'
                 urlLst.append(url)
-                url = f'https://lab.ssafy.com/{user_id}/{subject}_ws_{today}_{test}'
+            if test in [1,2,3]:
+                url = f'https://lab.ssafy.com/{user_id}/{subject}_ex_{today}_{test}'
                 urlLst.append(url)
-            else:
-                url = f'https://lab.ssafy.com/{user_id}/{subject}_ws_{today}_{test}'
-                urlLst.append(url)
+            
         # 받아올 url 리스트를 만들어 주었다
         for url in urlLst:
             try:
