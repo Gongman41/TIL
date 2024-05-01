@@ -23,6 +23,12 @@
     - 선택자가 일치하는 element들을 모아 NodeList 반환
   
 ## Dom 조작
+- classList.add,remove,toggle
+- setAttribute
+- textContent
+- createElement
+- appendChild
+- a.style.color = ' ' ...
 - 클래스 속성 조작
   
 ### NodeList
