@@ -72,5 +72,20 @@
     <mapping directory="$PROJECT_DIR$/javascript/01-javascript-and-DOM/assignment/javascript_ws_1_a" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/javascript/01-javascript-and-DOM/assignment/javascript_ws_1_b" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/javascript/01-javascript-and-DOM/assignment/javascript_ws_1_c" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_ex_3_1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_ex_3_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_ex_3_3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_ex_4_1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_ex_4_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_ex_4_3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_hw_3_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_hw_3_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_hw_4_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_hw_4_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_ws_4_1" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_ws_4_2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_ws_4_3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_ws_4_4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vue/assignment/vue_ws_4_5" vcs="Git" />
   </component>
 </project>

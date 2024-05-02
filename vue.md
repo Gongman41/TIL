@@ -70,6 +70,8 @@
 
 ## computed Properties
 - 계산된 속성 을 정의하는 함수. 미리 계산된 속성을 사용하여 반복연산을 줄임
+- 반응형 데이터를 포함하는 복잡한 로직의 경우 computed를 활용하여 미리 값을 계산하여 계산된 값을 사용
+- 반환되는 값은 computed ref, 일반 ref랑 비슷하게 사용
 - 의존된 반응형데이터를 자동으로 추적
 - 의존하는 데이터가 변경할 때만 재평가.
 - computed vs method
@@ -79,5 +81,101 @@
 
 ## Conditional Rendering
 - v-if,v-else,v-else-if
+- <div v-if="name === 'Alice'">앨리스임</div>
 - <template 에 넣기> : 렌더링은 안됨
   - v-if vs v-show(일단 그림. 대신 히든으로 가림.온오프의 개념)
+  - 처음에 비용 적음, 토글비용 높음 vs 초기조건 관계없이 항상 렌더링. 초기 렌더링 비용이 높음\
+
+## List Rendering
+- v-for: value, (value, key), (value,key,index) 순서.
+  - 인덱스(객체에서는 key)에 대한 별칭 지정 가능
+  - key랑 같이쓰자. 순서보장을 위해
+  - <div v-for="item in items" :key="item.id"> </div>
+  - key는 number or string
+  - v-for랑 v-if 같이 쓰면 v-if가 먼저 실행됨
+  <!-- 요까정 -->
+    - computed활용: 먼저 배열을 새로 만듦
+    - 
+    - v-for, <template>요소 활용
+
+- watch: 하나 이상의 반응형 데이터를 감시하고 감시하는 데이터가 변경되면 콜백함수 호출.(작업을 수행,axios에서 자주 사용) computed랑 비슷(의존하는 데이터 속성의 계산된 값,중복계산 방지).
+  - 둘 다 원본 데이터를 직접 변경하지않음
+
+# single-File components
+- component: 재사용 가능한 코드블록
+  - UI를 독립적이고 재사용가능한 일부분으로 분할하고 각 부분을 개별적으로 다룰 수 있음
+  - 애플리케이션은 중첩된 Component의 트리형태로 구성됨
+- single-file component(SFC): 컴포넌트의 템플릿, 로직 및 스타일을 하나의 파일로 묶어낸 특수한 파일 형식(.vue파일)
+  - template, script, style 블록으로 분할.
+  - v-base-3-setup 자동완성 클릭. scss만 지움
+```vue
+<template>
+  <div>
+    <p class="'greeting'"> {{msg}}</p>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const msg = ref('Hello')
+
+</script>
+
+<style scoped>
+  .greeting {
+    color: aqua;
+  }
+</style>
+<!-- 순서는 상관없음 -->
+<!-- template 블록은 1개만. script setup도 하나 -->
+<!-- scoped가 지정되면 css는 현재 컴포넌트에만 적용됨 -->
+```
+
+## SFC build tool
+- Vite: 프론트엔드 개발도구
+  - vite 프로젝트 생성
+    - npm create vue@latest
+    - 다 no
+  
+- NPM: Node.js의 기본 패키지 관리자(pip 같은 놈)
+- node.js: 자바스크립트 기반 serverSide 실행환경
+  - 풀스택 개발 가능. 다양한 오픈소스 패키지, 라이브러리 제공
+- 모듈: 프로그램을 구성하는 독립적인 코드블록(.js파일)
+  - 의존성 문제
+- Bundler: 여러 모듈과 파일을 하나 혹은 여러개의 번들로 묶어 최적화
+  - 의존성관리, 코드최적화, 리소스관리
+
+- node_modules(venv같은거)
+  - 의존성 모듈 저장,관리
+  - 라이브러리, 패키지 포함
+- package-lock.json
+  - requirement같은거
+- package.json
+  - readme 같은 거
+- public 디렉토리
+  - 소스코드에서 참조되지 ㅇ낳는, 항상 같은 이름을 갖는 import 할 필요 없는애들
+  - root 절대경로로 접근
+- src 디렉토리
+  - 주요 소스코드를 포함하는 곳
+  - assets
+    - 프로젝트 내에서 사용되는 자원을 관리
+    - 프로젝트 자체에서 참조하는 내부파일을 저장하는 데 사용
+    - 컴포넌트가 아닌 곳에서는 public 디렉토리에 위치한 파일을 사용
+  - components
+    - Vue 컴포넌트들을 작성하는 곳
+  - App.vue
+    - Vue 앱의 최상위 Root 컴포넌트
+    - 다른 하위 컴포넌트들을 포함
+    - 애플리케이션 전체의 레이아웃과 공통적인 요소를 정의
+  - main.js
+    - Vue 인스턴스를 생성하고 애플리케이션을 초기화하는 역할
+    - 필요한 라이브러리를 import.하고 전역설정을 수행
+  - index.html
+    - 앱의 진입점
+    - App.vue 가 해당페이지에 마운트됨
+    - 외부 리소스를 로드할 수 있음 ex)bootstrap CDN
+
+## Vue Component 활용
+  - 라우터
+  - 피니아
