@@ -179,3 +179,196 @@ const msg = ref('Hello')
 ## Vue Component 활용
   - 라우터
   - 피니아
+
+
+# Component State Flow
+## Passing Props
+- 위치상으로 다른 같은 컴포넌트. 여러 개의 위치에서 관리하는 게 아니라 한 곳에서 관리_공통된 부모 컴포넌트에서 관리
+- Props: 부모 컴포넌트로부터 자식 컴포넌트로 데이터를 전달하는 데 사용되는 속성
+  - 부모에서 자식으로만 업데이트 가능. 업데이트 시 자식컴포넌트의 모든 props가 최신값으로 업데이트.
+  - 자식은 자신에게 일어난 일 부모에게 emit 
+  - One-Way Data Flow: 모든 props는 자식속성과 부모속성 사이에 하향식  단방향 바인딩을 형성
+    - 단방향인 이유: 하위 컴포넌트가 실수로 상위 컴포넌트의 상태를 변경하여 앱에서의 데이터 흐름을 이해하기 어렵게 만드는 것을 방지하기 위함
+    - 데이터 흐름의 일관성 및 단순화
+
+App.vue
+```vue
+<template>
+  <div>
+    <Parent />
+  </div>
+</template>
+
+<script setup>
+  import Parent from '@/components/Parent.vue'
+
+
+</script>
+
+```
+
+Parent.vue
+```vue
+<template>
+  <div>
+    <ParentChild 
+      my-msg="message" 
+      :dynamic-props="name"
+      @some-event="someCallback"
+      @my-focus="someCallback2"
+      @emit-args="getNumbers"
+      @update-name="updateName"
+      />
+      <!-- 아까는 문자열. 지금은 변수보냄 -->
+    <!-- <ParentChild my-msg="message"/> -->
+    <ParentItem 
+    v-for="item in items"
+    :key='item.id'
+    :my-prop="item"
+    />
+  </div>
+</template>
+
+<script setup>
+  import { ref } from 'vue'
+  import ParentChild from '@/components/ParentChild.vue'
+  import ParentItem from '@/components/ParentItem.vue'
+
+
+  const name = ref('Alice')
+  const items = ref([
+    {id:1, name: "사과",},
+    {id:2, name: "사",},
+    {id:3, name: "과",},
+  ])
+  const someCallback = function(){
+    console.log("p c 가 이벤트 수신")
+  }
+  const someCallback2 = function(){
+    console.log("p c 가 이벤트 수신2")
+  }
+
+  const getNumbers = function(...args) {
+    console.log(args)
+  }
+
+  const updateName = function() {
+    name.value = 'Bella'
+  }
+</script>
+
+```
+
+ParentChild.vue
+```vue
+<template>
+  <div>
+    
+      <!-- props이름 = "props 값" -->
+    <p>{{myMsg}}</p>
+    <p>{{ dynamicProps }} </p>
+    <ParentGrandChild 
+    :my-msg="myMsg"
+    @update-name = "updateName"/>
+    <!-- v-bind를 사용한 동적 props -->
+    <button @click= "$emit('someEvent')">b1</button>
+    <button @click= "buttonClick">b2</button>
+    <button @click= "emitArgs">b3</button>
+
+
+  </div>
+</template>
+
+<script setup>
+  import ParentGrandChild from '@/components/ParentGrandChild.vue'
+
+  // defineProps(['myMsg'])
+  defineProps({
+    myMsg:String,
+    dynamicProps:String
+  })
+  const props = defineProps({ myMsg: String})
+  console.log(props.myMsg)
+  // 객체 선언 문법 권장
+  // props를 선언. 인자의 데이터 타입에 따라 선언 방식이 나뉨
+  // html과 js에 맞게 작성
+  const emit = defineEmits(['myFocus','myArgs','updateName'])
+
+  const buttonClick = function() {
+    emit('myFocus')
+  }
+
+  const emitArgs = function() {
+    emit('emitArgs',1,2,3)
+  }
+
+  const updateName = function () {
+    emit('updateName')
+  }
+</script>
+
+```
+- 부모 컴포넌트에서 내려보낸 props를 사용하기 위해서는 자식 컴포넌트에서 명시적인 props 선언이 필요
+
+ParentGrandChild
+```vue
+<template>
+  <div>
+    <ParentChild />
+    <button @click= "updateName">이름변경</button>
+
+  </div>
+</template>
+
+<script setup>
+  defineProps({
+    myMsg: String
+  })
+
+  const emit = defineEmits(['updateName'])
+
+  const updateName = function () {
+    emit('updateName')
+  }
+
+</script>
+
+```
+
+## Props 세부사항
+- Props Name Casing
+  - 자식 컴포넌트로 전달시 kebab-case
+  - 선언 및 템플릿 참조시 camelCase
+- static props , Dynamic props
+  - v-bind를 사용하여 동적으로 할당된 props를 사용할 수 있음
+
+## Props 활용
+
+ParentItem.vue
+```vue
+<template>
+  <div>
+    <p>{{ myProp.id}}</p>
+    <p>{{ myProp.name}}</p>
+  </div>
+</template>
+
+<script setup>
+ defineProps({
+  myProp:Object
+ })
+</script>
+  
+```
+
+## Component Events
+- Emit: 부모가 props 데이터를 변경하도록 요청
+  - $emit(): 자식 컴포넌트가 이벤트를 발생시켜 부머컴포넌트로 데이터를 전달하는 역할의 메서드, $는  Vue 인스턴스의 내부변수 가리킴
+    - @emit(event,...args)
+  - defineEmits() 로 선언
+
+## 이벤트 전달
+## Event name casing
+  - 자식 먼저 작성. 쓰는 법은 똑같
+## 참고
+- 객체선언문법: 가독성, 잘못된 유형 시 콘솔에 경고(유효성 검사)
