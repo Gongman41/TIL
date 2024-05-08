@@ -1,0 +1,18 @@
+﻿I'm sorry, but errors were detected in your script. Please correct the
+errors listed below, and try again.
+
+
+File "game/script.rpy", line 70: menu statement expects a non-empty block.
+    menu:
+        ^
+
+File "game/script.rpy", line 71: expected statement.
+    "사랑은 번식을 위한 호르몬의 불가해적 행동":
+                             ^
+
+File "game/script.rpy", line 74: expected statement.
+    "사랑은 가슴의 울렁거림. 인생의 봄이자 여름. 삶의 아리따움.":
+                                        ^
+
+Ren'Py Version: Ren'Py 8.2.1.24030407
+Thu May  9 03:37:06 2024
