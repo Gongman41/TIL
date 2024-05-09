@@ -373,4 +373,138 @@ ParentItem.vue
 ## 참고
 - 객체선언문법: 가독성, 잘못된 유형 시 콘솔에 경고(유효성 검사)
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+# Router
+- Routing: 네트워크에서 경로를 선택하는 프로세스. 다른 페이지 간의 전환과 경로를 관리하는 기술
+  - SSR에서 Routing은 서버 측에서 수행
+  - CSR에서 Routing은 클라이언츠 측에서 수행
+    - 전체 페이지를 다시 로드하지 않음_single page
+    - 페이지 변화 감지 불가, 새로고침 시 처음페이지, 첫페이지만 공유가능, 뒤로가기 불가
+    - 주소에 따라 여러 컴포넌트를 새로 렌더링하여 마치 여러 페이지를 사용하는 것처럼 보이도록
+
+- Vue Router  
+  - 프로젝트 생성 시 Router 추가에 Yes
+  - App.vue 코드 변화, router 폴더 신규 생성, views 폴더 신규 생성
+    - RouterLink: 페이지를 다시 로드하지 않고 URL을 변경하여 URL 생성 및 관련 로직을 처리,a태그로 랜더링
+    - RouterView: RouterLink URL에 해당하는 컴포넌트를 표시. 원하는 곳에 배치 가능
+
+  - router/index.js:url과 컴포넌트를 매핑
+  - views: components 폴더와 비슷. RouterView에 실질적으로 랜더링하는 애들
+
+## Basic Routing
+- index.js에 라우터 관련 설정 작성. 주소,이름,컴포넌트
+- RouterLink의 to 속성으로 index.js에서 정의한 주소값 사용
+- Named Routes: 경로에 이름을 지정하는 라우팅
+  - :to= "{ name: ''}" 형태로 작성
+
+- Dynamic Router Matching: URL일부를 변수로 사용하여 경로를 동적으로 매칭
+  - 매개변수는 콜론 ":" 표기
+  - path: '/user/:id'
+  - params:{'id':userId} _App.vue
+  - 라우트의 매개변수는 컴포넌트에서 {{$route.params.id}} 같이 참조 가능
+    - 위랑 아래랑 동일
+    - import { useRoute } from 'vue-router'
+    - const route = useRoute()
+    - const userId = ref(route.params.id) 같이 반응형 변수에 할당 후 템플릿에서 출력. 
+
+- Nested Routes: 중첩된 라우팅
+  - 페이지의 일부분 변경
+  - children 옵션. index.js에 작성. 앞쪽에 슬래쉬 안붙임
+  - 기본 페이지 설정하던가 안하던가 상관 s. 하면 name 없애고 하위 경로 하나 더.
+  - 중첩 <-> 부모 자식관계
+
+# Stata Management
+- Vue 컴포넌트는 이미 반응형 상태를 관리하고 있음, 상태 === 데이터
+- 컴포넌트 구조의 단순화
+  - 상태: 앱 구동에 필요한 기본 데이터
+  - 뷰: 상태를 선언적으로 매핑하여 시각화
+  - 기능: 사용자 입력에 대해 반응적으로 상태 변경
+
+- 상태관리의 단순성이 무너지는 시점
+  - 여러 컴포넌트가 상태를 공유할 때
+    - 여러 뷰가 동일한 상태에 종속:계층구조가 깊어질 경우 비효율적, 관리가 어려워짐
+    - 서로 다른 뷰의 기능이 동일한 상태를 변경: 발신된 이벤트를 통해 여러 복사본을 변경 및 동기화 하는 것. 관리의 패턴이 깨지기 쉽고 유지관리할 수 없는 코드
+
+- 해결책
+  - 각 컴포넌트의 공유상태를 추출하여 전역에서 참조할 수 있는 저장소에서 관리
+  - 중앙저장소_Pinia
+  - 컴포넌트 트리는 하나의 큰 view가 되고 모든 컴포넌트는 트리 계층구조에 관계없이 상태에 접근하거나 기능을 사용할 수 있음
+
+## Pinia
+- Vue 공식 상태관리 라이브러리
+- 프로젝트 빌드 시 Pinia 라이브러리 추가
+  - stores 폴더 신규 생성
+- 구성요소
+  - store: 중앙 저장소. 모든 컴포넌트가 공유하는 상태, 기능 등이 작성됨
+    - defineStore()의 반환값의 이름은 use와 store를 사용하는 것을 권장. 첫번째 인자는 store의 고유 Id
+    - state: 반응형 상태(데이터), ref()===state
+    - getters: 계산된 값. computed() == getters
+    - actions:메서드, function() === actions
+  - plugin
+    - setup Stores: pinia의 상태들을 사용하려면 반드시 반환. store에서는 private한 상태속성을 가지지 않음
+
+- 구성요소 활용
+  - state: 각 컴포넌트 깊이에 관계없이 store 인스턴스로 state에 접근하여 직접 읽고 쓸 수 있음. 만약 store에 state를 정의하지 않았다면 컴포넌트에서 새로 추가할 수 없음.
+ App.vue
+```js
+import {useCounterStore} from '@/stores/counter'
+
+const store = useCounterStore()
+const newNumber = store.count + 1
+```
+  - 템플릿에서 {{store.count}}같이 사용
+  - getters도 똑같
+  - actions도 똑같. store.increment() 상태자체 변경을 위해선 action 사용
+
+## Pinia 실습
+- 컴포넌트 구성
+  - App
+    - TodoForm
+    - TodoList
+      - TodoListItem
+- 조회
+  - counter.js
+  -  const todos ref([
+  -  {id:id++,text:'할 일1',isDone:false
+  -  }])
+  -  참조, const store = useCounterStore()
+
+- create Todo
+  - todos 목록에 addTodo 액션 정의. push
+  - TodoForm에서 실시간으로 입력되는 사용자 데이터를 양방향 바인딩하여 반응형 변수로 할당
+  - submit 이벤트 발생시 addTodo 호출
+  - input 데이터 초기화 할 수 있도록 처리. form에 반응형 데이터 연결
+
+- Delete Todo
+  - 따로 정의하는 게 아니라 store.deleteTodo로도 연결 가능
+```js
+const deleteTodo = function (todoId) {
+  const index = todos.value.findindex((todo) => todo.id ===todoId)
+  todos.value.splice(index, 1)
+}
+// todos에서 특정 인덱스 todo삭제후 새로운 todos 배열로 교체
+```
+
+- Update Todo
+  - isDone 속성값 반대로 재할당 후 새로운 todo 목록 반환
+```js
+const updateTodo = function (todoId) {
+  todos.value = todos.value.map((todo) => {
+    if (todo.id === todoId) {
+      todo.isDone = !todo.isDone
+    }
+    return todo
+  })
+}
+```
+
+```js
+const doneTodosCount = computed(() => {
+  const doneTodos = todos.value.filter((todos) => todo.isDone)
+  return doneTodos.length
+})
+```
+
+- plugin_local storage
+  - 설치
+  - main.js에 등록
+  - defineStore()의 3번째인자로 관련객체 추가

@@ -41,3 +41,4 @@ for foldername, subfolders, filenames in os.walk(current_folder):
         venv_folder_path = os.path.join(foldername, 'venv')
         subprocess.run(['rm', '-rf', venv_folder_path])
         print(f'{venv_folder_path} 폴더가 삭제되었습니다.')
+
