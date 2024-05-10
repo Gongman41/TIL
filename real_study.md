@@ -125,3 +125,61 @@ return Response(serializers.data)
 ## Locust
 
 ##
+
+index.js, views 작성
+stores 작성. 외부에서 데이터 가져오는 함수 작성(axios_then,catch)
+``` js
+const getProducts = function() {
+  axios({
+    method:'get',
+    url: 'asdsad'
+  })
+  .then((response)=>{
+    // console.log(response)
+    products.value = response.data
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+}
+// goRoute : 받을떄
+//  useRouter: 보낼 떄
+const router = useRouter()
+const goDetailPage = function(productId) {
+  router.push(`/${productId}`)
+}
+
+const carts = ref({})
+
+const addCart = function(product) {
+  carts.value.push(product)
+}
+const deleteCart = function() {
+  const idx = carts.value.findIndex(cart => cart.id ===productId)
+  if (idx !== -1) {
+    carts.value.splice(idx,1)
+  }
+}
+```
+```js
+const route = useRoute()
+const productId = route.params.product_id
+// store에서 가져오면 바로 디테일페이지로 접근 시 데이터가 없음
+// api가 제공해주면 ㅇㅋ, 아니면 app.vue등 상위 컴포넌트에서 호출_대신 데이터가 있다면 재호출 하지 않도록 구현
+// 여기서만 쓰니까 여기다 함수 작성
+const product = ref({})
+ axios({
+    method:'get',
+    url: `asdsad${productId}`
+  })
+  .then((response)=>{
+    // console.log(response)
+    products.value = response.data
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+
+  
+```
+template script에서 onmounted(비동기 요청)
