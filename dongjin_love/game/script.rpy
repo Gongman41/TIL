@@ -94,7 +94,7 @@ label start:
             ed "아 [username]씨... 이름 이쁘네요."
 
             ed "[login_result]"
-            jump scene1d
+            jump scene1
         else:
             ed "....네? 잘못들은 거 같은데 다시 말씀해주시겠어요?"
 
