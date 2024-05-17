@@ -182,7 +182,36 @@ const product = ref({})
 
   
 ```
-template script에서 onmounted(비동기 요청)
+template script에서 onmounted(비동기 요청
+
+콘텐츠 기반 필터링
+협력 필터링(최근접 이웃 기반,잠재요인 기반)
+하이브리드 추천 시스템
+http://www.storyjoa.com/monster/bbs/board.php?bo_table=AIcon&wr_id=23
+https://www.kaggle.com/code/alsojmc/movie-recommender-systems
+https://velog.io/@skarb4788/%EB%94%A5%EB%9F%AC%EB%8B%9D-%EC%98%81%ED%99%94-%EC%B6%94%EC%B2%9C-%EC%8B%9C%EC%8A%A4%ED%85%9C
+https://web.archive.org/web/20180426032401id_/http://kiise.or.kr/e_journal/2012/4/SA/pdf/02.pdf
+https://velog.io/@kim_haesol/%EC%98%81%ED%99%94-%EC%B6%94%EC%B2%9C%EC%8B%9C%EC%8A%A4%ED%85%9C
+https://diane-space.tistory.com/90
+https://github.com/yuna872/Movie-Spotter
+https://m.blog.naver.com/jaehong7719/221905709680
+https://heegyukim.medium.com/%EC%B6%94%EC%B2%9C-%EC%8B%9C%EC%8A%A4%ED%85%9C-1-%EA%B8%B0%EB%B3%B8-%EA%B0%9C%EB%85%90-%EC%BD%98%ED%85%90%EC%B8%A0-%EA%B8%B0%EB%B0%98-%EC%B6%94%EC%B2%9C-a52fbca5722a
+https://continuous-development.tistory.com/141
+https://lsjsj92.tistory.com/570
+https://anweh.tistory.com/41
+https://m.blog.naver.com/mmwook94/221388978684
+https://scienceon.kisti.re.kr/srch/selectPORSrchArticle.do?cn=DIKO0015074637
+콘텐츠 기반 필터링: 항목의 내적 특징기반 유사성 측정
+
+  취향 변화 반영 어렵
 
 
+아이템 기반 협력 필터링: 사용자의 행동 데이터 기반 유사성 측정
+  취향 변화에 잘 대응
+    - 콜드 스타트: 새로운 유저나 새로운 아이템이 추가되었을 때 유사도 계산 데이터 부족
+    - 계산량: 사용자, 유저 추가 시 계산량 많이 증가
+    - 롱테일: 소수의 인기항목에만 관심, 비인기 항목에는 추천정보 부족
+잠재모델 기반:
 
+
+장고 view에 작성 후 받아오기
