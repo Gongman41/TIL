@@ -220,35 +220,41 @@
 
   <script>
       // Register the service worker.
-      if (navigator.serviceWorker) {
-          if (!navigator.serviceWorker.controller) {
-              navigator.serviceWorker.register('./service-worker.js', { updateViaCache: 'all' });
-          }
-      }
-
-      const test = function(name,word) {
-      if (name) {
-        return 1
-      } else {
-        return 0
-      }
+    if (navigator.serviceWorker) {
+        if (!navigator.serviceWorker.controller) {
+            navigator.serviceWorker.register('./service-worker.js', { updateViaCache: 'all' });
+        }
     }
 
-    const getArticles = function () {
-    return axios({
-      method: 'get',
-      url: 'http://127.0.0.1:8000/api/v1/articles/',
-    })
+    function extractUserName() {
+        // 예시로 URL에서 직접 user_id를 추출하는 함수를 작성
+        const urlParams = new URLSearchParams(window.location.search)
+        return urlParams.get('username')
+    }
+
+    const username = extractUserName()
+    // username이 아니라 닉네임
+
+      const get_user_name = function () {
+      return username
+    }
+    // url 해시값 받아서 호출까지 ㅇㅋ
+    const get_Moviedata = function () {
+    return axios.get(`http://127.0.0.1:8000/api/v1/`)
       .then(response => {
         return response.data
       })
       .catch(error => {
         console.log(error)
       })
+      
 }
+    
   </script>
   <script src="renpy-pre.js"></script>
   <script async type="text/javascript" src="renpy.js"></script>
+
+</body>
 
 </html>
 

@@ -2,13 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 153: reached end of line when expecting ':'.
-    while count
-               ^
-
-File "game/script.rpy", line 190: expected statement.
-    ed
-      ^
+File "game/script.rpy", line 321: end of line expected.
+    ed "[title["title"]]!!!"
+                ^
 
 Ren'Py Version: Ren'Py 8.2.1.24030407
-Mon May 13 16:22:13 2024
+Wed May 22 17:35:54 2024
