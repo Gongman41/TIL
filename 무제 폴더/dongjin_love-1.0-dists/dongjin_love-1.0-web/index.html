@@ -216,7 +216,7 @@
   </div>
 
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://unpkg.com/vue@3.2.6"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
   <script>
       // Register the service worker.
@@ -228,36 +228,23 @@
 
     function extractUserName() {
         // 예시로 URL에서 직접 user_id를 추출하는 함수를 작성
-        const urlParams = new URLSearchParams(window.location.search)
-        return urlParams.get('username')
+        urlParams = 'test100'
+        return urlParams
     }
 
     const username = extractUserName()
     // username이 아니라 닉네임
 
-      const get_user_name = function () { // userId를 인자로 받음
+      const get_user_name = function () {
       return username
     }
     // url 해시값 받아서 호출까지 ㅇㅋ
-    const get_Moviedata = function () {
-    return axios.get(`http://127.0.0.1:8000/api/v1/`)
-      .then(response => {
-        return response.data
-      })
-      .catch(error => {
-        console.log(error)
-      })
-      
-}
+    
     
   </script>
   <script src="renpy-pre.js"></script>
   <script async type="text/javascript" src="renpy.js"></script>
 
-
-
 </body>
 
 </html>
-
-

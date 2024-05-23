@@ -21,10 +21,10 @@ define love = 0
 define movies = []
 define user_name = ''
 define user_token = ''
-define user = []
-default favorite_genres = []
-default like_movies = []
-
+# define user = []
+define favorite_genres = []
+define like_movies = []
+define API_URL = "https://dongjin-love.onrender.com"
 
 define genres = [
     {"pk": 28, "name": "액션"},
@@ -48,6 +48,9 @@ define genres = [
     {"pk": 37, "name": "서부"}
 ]
 
+
+
+
 '''
 전체 스토리
 - 주인공은 평범하게 영화를 좋아하는 고등학교 1학년. 1학기동안 영화부 회장 이동진 선배를 연모하고 있는 상황. 
@@ -65,22 +68,22 @@ define genres = [
 '''
 label start:
 
+
+
     show class
+
     
-    $ params = (renpy.emscripten.run_script("get_user_params()"))
-    python:
-        import json
-        user_params = json.loads(params)
-    $ user_name = params['username']
-    $ user_token = user_params['token']
     
-    $ user = renpy.fetch(f"http://127.0.0.1:8000/profile/{user_name}/", method='GET',result="json")
+    $ user_name = (renpy.emscripten.run_script_string("get_user_name()")).replace("\\'", "'")
+    
+    $ user = renpy.fetch(f"{API_URL}/profile/{user_name}/", method='GET',result="json")
     $ username = user.get("nickname")
     # user.data.get("nickname") 인거 같기도
     $ movies = []
     $ favorite_genres = user.get('like_genre')
+
     python:
-        url = "http://127.0.0.1:8000/api/v1/movieList_for_game/"
+        url = f"{API_URL}/api/v1/movieList_for_game/"
         favorite_genres = [str(genre_id) for genre_id in favorite_genres]
 
         url = url +  "?genre_id=" + "&genre_id=".join(favorite_genres)
@@ -471,11 +474,15 @@ label scene2:
         # 새로운 사용자 데이터를 JSON 형식의 문자열로 변환
         new_user_data_json = json.dumps(new_user_data)
 
-        # URL 매개변수로 토큰 전달
-        url = f"http://127.0.0.1:8000/profile_for_game/{user_name}/?token={token}"
+        # HTTP 요청을 보낼 URL
+        url = f"{API_URL}/profile_for_game/{user_name}/"
 
-    $ respond = renpy.fetch(url, method='PUT', data=new_user_data_json, result='json')
+        # HTTP 요청의 헤더에 토큰을 포함
+        # headers = {"Authorization": f"Token {user_token}"}
 
+        # HTTP PUT 요청 보내기
+        # response = requests.put(url, headers=headers, json=new_user_data)
+        response = requests.put(url, data=new_user_data)
     # 응답 상태와 데이터를 로그로 출력
 
     ed "...!!"
