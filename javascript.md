@@ -669,3 +669,145 @@ def follow(request, user_pk):
 - const articleId = event.**target**.dataset.articleId
 - 이외는 팔로우와 거의 동일
 - view에서 좋아요 수 보냄. 비동기 처리할때 span태그로 묶고 id가 따로 지정되어있는 값에 이벤트 핸들러 연결. textContent 변경
+
+
+
+
+function showError() {
+  alert('에러가 발생');
+}
+
+showError();
+
+function sayHello(name) {
+  const msg = `Hello, ${name}`;
+  console.log(msg)
+}
+함수 선언문. 어디서든 호출 가능(호이스팅)
+함수 표현식은 코드에 도달하면 생성
+
+화살표 함수. 함수표현식에서 function, return 삭제. 괄호 옆에 화살표. 중괄호 소괄호로 변경. 
+
+객체 안에서 화살표함수로 메서드 선언하면 this가 안먹음. 외부에서 값을 가져옴(전역객체)
+
+형변환 String(),Boolean(),Number()
+== <-> === . 형까지 보냐
+
+전역변수와 지역변수. 선언과 값 할당.
+
+Object.assign() 객체 복제. Object.keys() 키 배열 
+
+심볼: 유일한 식별자. 유일성 보장 Symbol()
+- 생긴게 똑같아도 다름. object.keys()로 가져와도 얘는 안뜸
+- Symbol.for(): 전역심볼
+
+toString(): 10진수 ->2진수 num.toString(2), 16진수 num.toString(16)
+Math.ceil() 올림, floor()내림, round() 반올림
+- 곱하고 반올림하고 나누기. or toFixed(n) n까지 표현. 문자열 반환이라 Number()사용
+isNaN()으로만 NaN 판단 가능
+parseInt()는 숫자인 부분까지만 출력. 두번째인수에 몇진수인지 전달하면 그거에 맞게 출력
+Math.random() 0-1사이 랜덤하게 숫자.
+- Math.floor(Math.random()*100)+1
+Math.pow(n,m) 제곱, sqrt()제곱근
+
+
+String
+- .indexOf(text) 특정 문자 시작위치 반환
+- .slice(n,m) 까지 반환
+- .substring(n,m) slice와 비슷, 근데 앞뒤 바껴도 가능
+- .substr(n,m) n부터 m개
+- .trim() 앞뒤 공백제거
+- .repeat()
+- 문자열끼리 비교 가능
+
+Array
+- push(), pop(), unshift()_앞에 삽입, shift()_앞에 삭제
+- .splice(n,m) 특정요소 지움
+- .splice(n,m,x) 특정요소 지우고 추가 ,삭제된 요소 반환
+- .slice(n,m) n부터 m 까지 반환. 안쓰면 배열 복사
+- .concat(arr2,arr3) 합쳐서 새 배열 반환
+- .forEach(fn) 배열반복
+- .indexOf(), lastIndexOf()_끝에서부터
+- arr.includes()
+- arr.find(fn), arr.findIndex(fn) fn이 true인 애일 때 해당 매개변수 반환인듯. 처음 애만 반환
+- .filter(fn) 전부 반환
+- .reverse() 역순으로 재정렬
+- .map(fn) 함수 받아 특정 기능 수행 후 새로운 배열 반환
+- .join(넣을 문자) .split(나눌 문자 기준)
+- .sort(fn) 그냥 돌리면 문자열로 배열. 함수기준으로 return a-b같이
+  - Lodash 사용 시 함수 따로 안만들어도 됨. .sortBy()
+- .reduce(fn): return prev + cur;
+
+구조분해할당: 자동 할당.
+객체구조분헤
+let user = {name: "Mike" , age: 30};
+let {age,name} = user;
+
+나머지 매개변수, 전개구문
+- 인수 개수 제한 없음. arguments는 함수로 넘어온 모든 인수에 접근. Array 형태의 객체. 배열 메서드 사용불가
+- 그냥 나머지 매개변수 사용 ...names
+  - 전개구문으로도 사용. * 이런 느낌. 복제 쉬움
+
+클로저 
+- 어휘적 환경(Lexical 환경)
+  - 내부에서 먼저 찾고 없으면 밖에서.
+- Closure는 함수와 렉시컬 환경의 조합. 함수가 생성될 당시의 외부변수를 기억. 함수안에 함수.
+
+setTimeout(fn,time,인수), setInterval(fn,time,인수)
+- 몇 초 뒤에 수행, 몇 초 간격으로 실행. clear___()로 취소
+
+call, apply, bind
+- 함수 호출과 상관없이 this 지정
+- fn.call(객체, 매개변수1,매개변수2..): fn의 this가 객체를 가리킴
+- fn.apply(객체, 매개변수 배열)
+- fn.bind(객체) this 값 영구히 바꿈
+
+상속, 프로토타입
+- 객체 안에 해당 메서드 있으면 그거 출력, 없으면 프로토(부모)에서 찾음 
+- 자식.__proto__ = 부모   상속
+- 프로퍼티 출력시 부모꺼까지 다나옴. .keys(),.values()에서는 안나옴
+- .hasOwnProperty()는 실제 가지고 있는 프로퍼티 체크
+- 자식.prototype.멤버변수 = 4;  
+
+Class
+- 생성자함수로 만들거나 Class로 만들거나
+- constructor 생성자 메서드.
+- class는 new 없이 동작하지않음. 생성자는 돌아가긴 함. for in 으로 메서드 출력 안됨
+- extends로 상속
+- 메서드 오버라이딩. super.메서드() 부모의 메서드 사
+- super는 반드시 사용. 자식 클래스에서. 같은 인수 받기. this 사용
+
+promise
+const pr = new Promise((resolve,reject)=> {
+  setTimeout(()=>{
+    resolve('ok')
+  },3000)
+});
+pr.then(
+  <!-- function(result){},
+  function(err){
+  } -->
+  function(result){}
+).catch(
+  function(err){}
+);
+- 콜백함수: 어떤 일이 완료된 이후에 실행되는 함수
+- state,result 프로퍼티 가짐
+- Promise.all([f1(),f2(),f3()]).then((res) =>{
+  console.log(res);
+});
+- 한꺼번에 시작. 다 끝나면 다음 함수 실행가능. 시간 절약. 메모리는 많이 사용할듯
+- 하나의 정보만 누락되도 출력 안됨. 유의
+- Promise.race()는 하나라도 완료되면 끝
+
+async, await
+- then 대신 사용. 
+- async 항상 Peomise를 반환
+- await은 async함수 내부에서만 사용가능.
+- try catch문으로 감싸줌. 
+
+Generator
+-함수의 실행을 중간에 멈췄다가 재개할 . 수있음
+function* fn() {
+  yield 1;
+}
