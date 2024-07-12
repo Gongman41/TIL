@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/5.0.1/redux.legacy-esm.js"></script>
+</head>
+<body>
+    <style>
+        .container {
+            border: 5px solid black;
+            padding: 10px;
+        }
+    </style>
+    <div id="red"></div>
+    <div id="blue"></div>
+    <div id="green"></div>
+    <script>
+        function reducer(state = { color: 'yellow' }, action) {
+            var newState = state;
+            if (action.type === 'CHANGE_COLOR') {
+                newState = Object.assign({}, state, { color: action.color });
+            }
+            // console.log(action.type,action,state,newState);
+            // 단일 store. 이곳저곳  console.log 달 필요 없다
+            return newState;
+        }
+
+        var store = Redux.createStore(
+            reducer,
+            window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+// redux devtools 시간여행용. 기존 state랑 변경된 state 알려줌. action을 버전관리
+// 버그 발생 시 당시 상태 그대로 받아서 디버깅 가능
+        );
+ 
+        function red() {
+            var state = store.getState();
+            document.querySelector('#red').innerHTML = `
+                <div class="container" id="component_red" style="background-color:${state.color}">
+                    <h1>red</h1>
+                    <input type="button" value="fire" onclick="
+                        store.dispatch({ type: 'CHANGE_COLOR', color: 'red' });
+                    ">
+                </div>
+            `;
+        }
+
+        store.subscribe(red);
+        red();
+    </script>
+</body>
+</html>
