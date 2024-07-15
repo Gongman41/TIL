@@ -509,4 +509,81 @@ useReducer
 - 컴포넌트 내부에 새로운 state를 생성하는 리액트 훅
 - 모든 useState를 대체가능. 
 - 상태관리 코드를 컴포넌트 외부로 분리할 수 있음
-- 
+- 외부에 Reducer 함수 작성
+function reducer(state,action) {
+    if (action.type === "INCREASE") {
+        return state + action.data;
+    }
+}
+- 상태를 실제로 변환시키는 변환기 역할
+const {state, dispatch} = useReducer(reducer,0);
+- dispatch 상태변화가 있어야 한다는 사실을 알리는 함수
+const onClickPlus = () =>{
+    dispatch({
+        type: "INCREASE",
+        data:1
+        <!-- 상대가 어떻게 변하길 원하는지_액션객체 -->
+    });
+}
+- action의 타입이 많아지면 switch로 작성
+- 근데 state가 여러개면 어떻게?
+
+최적화
+- useMemo: 메모이제이션으로 불필요한 연산 최소화
+const {totalCount, doneCount, notDonCount} = useMemo (()=> {실행코드},[todos]); 
+- useEffect에서 depth가 바뀌면 콜백 다시 실행하는 것처럼. 콜백함수가 반환하는 값 그대로 반환.
+- 연산 한번만 수행
+
+React.memo
+- 컴포넌트를 인수로 받아 최적화된 컴포넌트로 만들어 반환
+const MemorizedComponent = memo(Component);
+- 부모가 리랜더링 되더라도 리랜더링x(props가 바뀌지 않으면) memo로 최적화됨
+import { memo} from "react"
+...
+<!-- const memorizedHeader = memo(Header); -->
+<!-- export default memorizedHeader; -->
+export default memo(Header);
+- app컴포넌트가 리랜더링되면 함수타입은 객체. 함수들이 계속 다시 생성되면서 주소값이 달라져 다른 값이라고 판단. 모두 리랜더링
+- memo는 얕은 비교 === 라 달라졌다고 판단. (객체타입 props를 가졌을경우)
+export default memo(TodoItem, (prevProps,nextProps) => {
+    if (prevProps.id !== nextProps.id) return false;
+    if (prevProps.isDone !== nextProps.isDone) return false;
+    if (prevProps.content !== nextProps.content) return false;
+    if (prevProps.date !== nextProps.date) return false;
+
+    return true;
+    <!-- 리랜더링 하지 마라 -->
+
+});
+- 고차 컴포넌트
+
+useCallback
+const onDelete = useCallback(useReducer때 작성한 코드);
+
+- 최적화는 언제 어떻게? 일단 기능 다 완성 후 최적화. 꼭 필요해보이는 곳만.
+
+Context
+- 컴포넌트간의 데이터를 전달하는 다른 방법
+- 기존의 부모 -> 자식 데이터 전달. 프롭스드릴링
+- 데이터 보관소 (객체). 함수,객체 저장. 여러개 생성해서 컴포넌트 별로 데이터 제공 가능
+import {createContext} from "react";
+export const TodoContext = createContext();
+- 보통 컴포넌트 외부에 작성,Provider
+<TodoContext.Provider value={{todos,onCreate}}>
+    내부에 자식들 TodoContext 바로 접근 가능
+</TodoContext.Provider>
+
+
+import {useContext} from "react";
+import {TodoContext} from "../App";
+
+const {onCreate} = useContext(TodoContext);
+
+- 근데 최적화 풀림. 자식쪽에서 값 변경하면 부모쪽 리랜더링 발생. 객체 자체가 다시 생성
+- todoContext를 두개로 분리. todoStateContext_변경될 수 있는 값 todoDispatchContext_변경되지않는값
+<todoStateContext.Provider value={{todos}}>
+    <todoDispatchContext.Provider value={{onCreate}}>
+    이 valuesms useMemo로
+    내부에 자식들 TodoContext 바로 접근 가능
+</todoDispatchContext.Provider>
+</todoStateContext.Provider>
