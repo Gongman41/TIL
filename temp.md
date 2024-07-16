@@ -587,3 +587,286 @@ const {onCreate} = useContext(TodoContext);
     내부에 자식들 TodoContext 바로 접근 가능
 </todoDispatchContext.Provider>
 </todoStateContext.Provider>
+
+
+카운터앱
+- 할거하고 app.css, index.css 내부 삭제
+- section 태그로 묶어주면 컴포넌트들마다 내부여백, 백그라운드 설정
+- 태그에 className="App"이라고 적어주면 App.css에 .App에서 css설정가능.
+전체 페이지에 padding, 각 section에 padding, margin-bottom.
+margin 0 auto; width:400px;
+- app 컴포넌트(부모)에 useState 작성. 자식간 데이터전달 불가능.
+- 그리고 각 컴포넌트에 변수, {변수, 함수}를 전달. 함수는 이벤트 핸들러를 따로 만들어서 전달. onClick={화살표 함수} 로 사용
+- 단방향 데이터 흐름
+
+투두리스트
+- 이것만 봐도 이쁘네
+```javascript
+// App.css
+.App {
+    display: flex;
+    // 자식요소들이 가로로 붙어서 출력
+    flex-direction: column;
+    // 세로로 출력
+    gap:10px;
+    // 요소들간 간격, flex일때만 사용가능
+    width: 500px;
+    margin:0 auto;
+    // 가운데 정렬
+}
+
+// Header.jsx
+import './Header.css';
+const Header = () => {
+    return (
+        <div className="Header">
+            <h1>(new Date().toDateString())</h1>
+        </div>
+    );
+};
+
+export default Header;
+
+// Header.css
+.Header > h1 {
+    color: rgb(37,147,255);
+}
+
+// Editor.jsx
+
+import {useState,useRef} from "react";
+const Editor = (onCreate) => {
+    const [content, setContent] = useState("");
+    const contentRef = useRef();
+    const OnChangeContent = (e) => {
+        setContent(e.target.value);
+    };
+
+    const onSubmit = () => {
+        if (content === "") {
+            contentRef.current.focus();
+            // 반짝
+            return;
+        }
+        onCreate(content);
+        setContent("");
+        // 초기화
+    };
+
+    const onKeyDown = (e) => {
+        if (e.keyCode === 13) {
+            onSubmit();
+        }
+    };
+    // 사용자가 어떤 키를 눌렀는지
+    return (
+        <div className="Editor">
+            <input value={content}
+            onKeyDown={onKeyDown}
+            ref = {contentRef}
+            onChange={onChangeContent}
+            placeholder="새로운 Todo..." />
+            <button onClick={onSubmit}>추가</button>
+        </div>
+    );
+};
+
+export default Editor;
+
+//Editor.css
+.Editor {
+    display: flex;
+    gap:10px;
+}
+
+.Editor input {
+    flex: 1;
+    // 부모요소의 범위를 벗어나지 않는 선에서 최대한 늘어남
+    padding:15px;
+    border:1px solid #rgb(220,220,220);
+    border-radius:5px;
+}
+
+.Editor button {
+    cursor: pointer;
+    // 마우스 커서 올리면 포인터로 바뀜
+    width:80px;
+    border: none;
+    background-color: #rgb(37,147,255);
+    color: #white;
+    border-radius:5px;
+
+}
+
+}
+
+// List.jsx
+import "./List.css";
+import TodoItem from "./TodoItem";
+import {useState} from "react";
+const List = ({todos, onUpdate,onDelete}) => {
+    const [search, setSearch] = useState("");
+
+    const OnChangeSearch = (e) => {
+        setSearch(e.target.value);
+    }
+
+    const getFilteredData = () => {
+        if (search ==="") {
+            return todos;
+        }
+        return todos.filter((todo)=>todo.content.toLowerCase().includes(search.toLowerCase()));
+    }
+
+    const filteredTodos = getFilteredData();
+    return (
+        <div>
+            <h4>Todo List</h4>
+            <input value = {search} onChange={onChangeSearch} placeholder="검색어를 입력하세요"/>
+            <div className="todos_wrapper">
+                {filteredTodos.map((todo)=>{
+                    {/* return <div>{todo.content}</div>; */}
+                    return <TodoItem key={todo.id} {...todo} onUpdate={onUpdate} onDelete={onDelete} />;
+                    {/* key 필요 */}
+                    {/* 컴포넌트로도 리턴가능, props로 전달도 가능 */}
+                })}
+            </div>
+        </div>
+    );
+};
+
+export default List;
+
+//List.css
+.List {
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+.List > input {
+    width: 100%;
+    border:none;
+    border-bottom: 1px solid #rgb(220,220,220);
+    // 밑에 테두리만
+    padding:15px 0px; // 위 아래만
+
+}
+
+.List > input:focus {
+    // focus되었을때
+    outline: none;
+    border-bottom: 1px solid #rgb(3,147,255);
+}
+
+.List .todos_wrapper {
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+// TodoItem.jsx
+import './TodoItem.css'
+const TodoItem = ({id, isDone, content, date, onUpdate,onDelete}) => {
+    
+    const onChangeCheckbox = () => {
+        onUpdate(id);
+    };
+
+    const onClickDeleteButton = () => {
+        onDelete(id);
+    };
+
+    
+    return <div className="TodoItem"> 
+        <input onChange={onChangeCheckbox} checked={isDone} type="checkbox" />
+        <div className="content">{content}</div>
+        <div className="data">{new Date(date).toLocalDateString()}</div>
+        <button onClick={onClickDeleteButton}>삭제</button>
+    </div>;
+};
+
+export default TodoItem;
+
+// TodoItem.css
+.TodoItem {
+    display:flex;
+    alignItems:center;
+    // 가운데 정렬
+    gap:20px;
+    padding:bottom;
+    border: 1px solid #rgb(240,240,240);
+}
+.TodoItem input {
+    width:20px;
+}
+
+.TodoItem content {
+    flex:1;
+}
+
+.TodoItem .date {
+    font-size:14px;
+    color:gray;
+}
+
+.TodoItem button {
+    cursor:pointer;
+    color:gray;
+    font-size:14px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+//App.jsx
+
+import { useState, useRef} from 'react';
+const mockData = [
+        {
+            id:0,
+            isDone:false,
+            content: "공부하기",
+            data : new Date.getTime(),
+        },
+        {
+            id:0,
+            isDone:false,
+            content: "공부하기",
+            data : new Date.getTime(),
+        },
+    ]
+
+function App() {
+    
+    const [todos,setTodos] = useState(mockData)
+    const idRef = useRef(3);
+    const onCreate = (content) => {
+        const newTodo = {
+            id:idRef.current++,,
+            isDone:false,
+            content: content,
+            data: new Date().getTime()
+        }
+
+        // todos.push(newTodo);;
+        setTodos([newTodo,...todos])
+    };
+    const onUpdate = (targetId) => {
+        setTodos(todos.map((todo) => todo.id === target.id ? {...todo, isDone:!todo.isDone} : todo));
+    };
+
+    const onDelete = (targetId) => {
+        setTodos(todos.filter((todos) => todos.id !== targetId));
+    };
+
+
+    return (
+        <div className="App">
+            <Header />
+            <Editor onCreate={onCreate}/>
+            <List todos ={todos} onUpdate={onUpdate} onDelete={onDelete}/>
+        </div>
+    );
+};
+```
+App
