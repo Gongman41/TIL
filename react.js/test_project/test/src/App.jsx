@@ -2,7 +2,7 @@
 import './App.css'
 // import {Rounts,Route,Link,useNavigate} from "react-router-dom";
 import {Rounts,Route} from "react-router-dom";
-import { useReducer,useRef,createContext } from 'react';
+import { useReducer,useRef,createContext, useEffect } from 'react';
 // a 태그 대체용, 페이지를 실제로 이동하는 navigate함수 반환
 import Home from './pages/Home';
 import Diary from './pages/Diary';
@@ -13,38 +13,32 @@ import NotFound from './pages/NotFound';
 //import Header from './components/Header';
 import Edit from './pages/Edit';
 
-const mockData = [
-  {
-    id:1,
-    createDate:new Date("2024-02-19").getTime(),
-    emotionId:1,
-    content:"1번 일기 내용"
-  },
-  {
-    id:2,
-    createDate:new Date("2024-02-18").getTime(),
-    emotionId:2,
-    content:"2번 일기 내용"
-  },
-  {
-    id:3,
-    createDate:new Date("2024-01-07").getTime(),
-    emotionId:3,
-    content:"3번 일기 내용"
-  }
-];
+
 function reducer(state, action) {
+  let nextState;
+
   switch(action.type) {
+    case "INIT": {
+      return action.data;
+    }
     case "CREATE":
-      return [action.data,...state];
+      { nextState = [action.data,...state];
+        break;
+      }
     case "UPDATE":
-      return state.map((item) => String(item.id) === String(action.data.id)? action.data : item);
+      {nextState = state.map((item) => String(item.id) === String(action.data.id)? action.data : item);
+          break;
+      }
     case "DELETE":
-      return state.filter((item) => String(item.id)!== String(action.id));
+      {nextState = state.filter((item) => String(item.id)!== String(action.id));
+        break;
+      }
     default:
       return state;
     
   };
+  localStorage.setItem('diary', JSON.stringify(nextState));
+  return nextState;
 }
 
 export const DiaryStateContext = createContext();
@@ -57,9 +51,40 @@ function App() {
   // const onClick = () => {
   //   nav('/new');
   // };
-  const {data,dispatch} = useReducer(reducer, mockData);
-  const idRef = useRef(3);
+  const [isLoading, setIsLoading] = useState(true);
+  const {data,dispatch} = useReducer(reducer, []);
+  const idRef = useRef(0);
   // 새로운 일기 추가
+  // localStorage.setItem('test',"hello");
+  // value로 객체 저장 시 문자열로 변환.  Json.stringify({name:"이정환"});
+  // 객체 호출 시 JSON.parse(localStorage.getItem('person')); 인수로 전달한 값이 undefined이거나 null일 경우 에러 발생
+  // localStorage.removeItem('person');
+
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem('diary'));
+    if (!storedData) {
+      return;
+    }
+    const parsedData = JSON.parse(storedData);
+    if (!Array.isArray(parsedData)) {
+      setIsLoading(false);
+      return;
+    };
+
+    let maxId = 0;
+    parsedData.forEach((item) => {
+      if (Number(item.id) > maxId) {
+        maxId = Number(item.id);
+      }
+    });
+    idRef.current = maxId + 1;
+    // parsedData 가 배열이 아닐 경우
+    dispatch({
+      type: "INIT",
+      data: parsedData,
+    });
+    setIsLoading(false);
+  },[])
   const onCreate = (createdDate,emotionId,content) => {
     dispatch({
       type:"CREATE",
@@ -96,6 +121,10 @@ function App() {
     });
 
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
     {/* <Header title={"Header"}
